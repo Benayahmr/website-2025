@@ -45,6 +45,37 @@
   font-style: normal;
 }
 
+
+                #loading-screen {
+                  position: fixed;
+                  top: 0; left: 0; right: 0; bottom: 0;
+                  background: #000;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  z-index: 99999;
+                }
+
+                #progress-container {
+                  width: 60%;
+                  max-width: 400px;
+                  height: 8px;
+                  background: #444;
+                  border-radius: 4px;
+                  overflow: hidden;
+                }
+
+                #progress-bar {
+                  height: 100%;
+                  width: 0%;
+                  background-color: #fff;
+                  transition: width 0.4s ease;
+                }
+
+
+
+
+
 .variable-font-circle {
   position: absolute;
   width: 100px;
@@ -237,6 +268,17 @@
   </style>
 </head>
 <body>
+
+
+                      
+                      <div id="loading-screen"> 
+                        <div id="progress-container">
+                          <div id="progress-bar"></div>
+                        </div>
+                      </div>
+                      
+
+
   <div class="header">
     <div class="header-flex-container">
       <h1><span class="black">בּניה המר:</span> <span class="pink" id="portfolioText">פּורטפוליוֹ</span></h1>
@@ -255,6 +297,61 @@
 
   <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
   <script>
+
+
+
+       
+                  const imagesToLoad = [
+                    'images/lettering_pic.png',
+                    'images/armon_pic.png',
+                    'images/asufa_pic.png',
+                    'images/algo_pic.png',
+                    'images/doula_pic.png',
+                    'images/lettering_pic_sat.png',
+                    'images/armon_pic_sat.png',
+                    'images/asufa_pic_sat.png',
+                    'images/algo_pic_sat.png',
+                    'images/doula_pic_sat.png'
+                  ];
+
+                  let loadedImages = 0;
+                  const progressBar = document.getElementById('progress-bar');
+                  const loadingScreen = document.getElementById('loading-screen');
+
+                  function updateProgress() {
+                    loadedImages++;
+                    const percent = Math.round((loadedImages / imagesToLoad.length) * 100);
+                    progressBar.style.width = percent + '%';
+
+                    if (loadedImages === imagesToLoad.length) {
+                      // מוסיפים המתנה קטנה כדי לראות את הסיום
+                      setTimeout(() => {
+                        loadingScreen.style.transition = 'opacity 0.5s ease';
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                          loadingScreen.style.display = 'none';
+                        }, 500);
+                      }, 300);
+                    }
+                  }
+
+                  function preloadImages() {
+                    imagesToLoad.forEach(src => {
+                      const img = new Image();
+                      img.onload = updateProgress;
+                      img.onerror = updateProgress;
+                      img.src = src;
+                    });
+                  }
+
+                  window.addEventListener('DOMContentLoaded', preloadImages);
+
+
+
+
+
+
+
     const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint, Query } = Matter;
   
     const engine = Engine.create();
