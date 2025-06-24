@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>לטרינג</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- פונט NarkissBlock -->
+  <style>
+    @font-face {
+      font-family: 'NarkissBlock';
+      src: url('../../fonts/NarkissBlock-Regular.otf') format('opentype');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      /* background-color: #fff; */
+      font-family: 'NarkissBlock', sans-serif;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 3em;
+      font-weight: bold;
+      text-align: right;
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-item {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #ccc;
+      border: 2px solid #999;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>לטרינג</h1>
+
+  <div class="grid">
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"></div>
+  </div>
+
+</body>
+</html>
