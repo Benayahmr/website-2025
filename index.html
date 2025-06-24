@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>בניה המר</title>
+  <!-- Favicon רגיל לדפדפנים -->
+<link rel="icon" href="icon/favicon.ico" type="image/x-icon">
+<link rel="icon" href="icon/favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="96x96" href="icon/favicon-96x96.png">
+
+<!-- iOS (אייפון, אייפד) -->
+<link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
+
+<!-- אנדרואיד / מסכים רטינה -->
+<link rel="manifest" href="icon/site.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon/web-app-manifest-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon/web-app-manifest-512x512.png">
+
+<!-- צבע רקע לתפריטים של מכשירים ניידים -->
+<meta name="theme-color" content="#ffffff">
+
+  <!-- פונטים מותאמים אישית -->
+  <style>
+    @font-face {
+      font-family: 'PortfolioFont';
+      src: url('fonts/portfolioVF.ttf') format('truetype-variations');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'NarkissBlock';
+      src: url('fonts/NarkissBlock-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+
+
+    @font-face {
+  font-family: 'b-logoxy';
+  src: url('fonts/b-logoxyVF.ttf') format('truetype-variations');
+  font-weight: 20 60;
+  font-stretch: 20% 60%;
+  font-style: normal;
+}
+
+.variable-font-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #332f2f; /* צבע רקע חדש */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+
+.variable-font-circle span {
+  font-family: 'b-logoxy';
+  font-size: 5em;
+  color: #000000; /* שחור */
+  font-variation-settings: "wght" 40, "wdth" 40;
+  user-select: none;
+  transform: translateY(5%);
+
+}
+
+
+
+
+    body {
+      margin: 0;
+      background-color: #000000;
+      font-family: 'Assistant', sans-serif;
+      overflow: hidden;
+      position: relative;
+      direction: rtl;
+    }
+
+    .header {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      padding: 0 20px;
+      z-index: 10;
+      font-family: 'PortfolioFont', 'Assistant', sans-serif;
+    }
+
+    .header {
+  pointer-events: none;
+}
+
+.header * {
+  pointer-events: auto;
+}
+
+
+    /* קונטיינר גמיש שמכיל את ה-h1 וה-p */
+    .header-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: center;
+      gap: 2vw; /* רווח אופקי של 3vw בין הכותרת לפסקה */
+    }
+
+    .header-flex-container h1 {
+      margin: 0;
+      font-size: 5vw;
+      order: 1; /* הכותרת ראשונה */
+      flex-shrink: 0; /* מונע שהכותרת תצטמק */
+    }
+
+    .header-flex-container h1 .black {
+      color: #E4E2D9;
+      font-weight: bold;
+    }
+
+    .header-flex-container h1 .pink {
+      color: #de7b7b;
+      font-weight: bold;
+      
+    }
+    .header-flex-container h1 .pink:hover {
+  color: #fa4e4d;
+  /* cursor: pointer; */
+  transition: color 0.3s ease;
+}
+
+    .header-flex-container p {
+      font-family: 'NarkissBlock', 'Assistant', sans-serif;
+      font-size: 1.2em;
+      margin: 0;
+      order: 2; /* הפסקה אחרי הכותרת */
+      color: #E4E2D9;
+      text-align: right; /* יישור לימין */
+      max-width: none;
+      line-height: 1.15;
+    }
+
+    .header-flex-container p a {
+  display: inline;           /* לשמור על הקישורים באותה שורה */
+  white-space: nowrap;       /* למנוע שבירת שורה בתוך הקישור */
+  text-decoration: none;     /* ללא קו תחתון רגיל כברירת מחדל */
+  color: inherit;            /* שומר על צבע הטקסט */
+  padding-bottom: 2px;       /* רווח קטן בין הטקסט לקו */
+  transition: all 0.3s ease;
+  cursor: pointer;           /* מצביע עכבר של קישור */
+}
+
+.header-flex-container p a:hover {
+  text-decoration: underline dotted;
+  /* text-decoration-color: #de7b7b;  */
+  text-decoration-thickness: 3px;
+  color: #fa4e4d;
+
+}
+
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* אלמנט תוכן שנדבק על הריבוע המורחב */
+    .expanded-content {
+      position: absolute;
+      color: #E4E2D9;
+      background: #E4E2D9;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      overflow-y: auto;
+      padding: 20px;
+      z-index: 9999;
+      font-family: 'Assistant', sans-serif;
+      direction: rtl;
+      user-select: text;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      border-radius: 5px; /* בלי רדיוסים */
+      height: 100vh; /* גובה מלא של המסך */
+      width: 80vw; /* 80% מרוחב המסך */
+      left: 50%; /* למרכז אופקי */
+      top: 0; /* למעלה */
+      transform: translateX(-50%); /* להזיז חצי מהרוחב אחורה */
+      transition: all 0.5s ease;
+    }
+
+    .expanded-content h2 {
+      margin: 0 0 10px 0;
+      color: #E4E2D9;
+    }
+
+    .expanded-content p {
+      font-size: 1.1em;
+      margin: 0 0 15px 0;
+      text-align: center;
+    }
+
+    .expanded-content img.main-image {
+      max-width: 100%;
+      margin-bottom: 15px;
+      border-radius: 5px; /* בלי רדיוסים */
+    }
+
+    .expanded-content img.extra-image {
+      max-width: 90%;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 5px; /* בלי רדיוסים */
+    }
+
+    .close-expanded-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px; /* מימין */
+      background: none;
+      border: none;
+      font-size: 25px;
+      color: #999;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 10000;
+      user-select: none;
+      transition: color 0.3s;
+    }
+    .close-expanded-btn:hover {
+      color: #E4E2D9;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-flex-container">
+      <h1><span class="black">בּניה המר:</span> <span class="pink" id="portfolioText">פּורטפוליוֹ</span></h1>
+      <p>
+        מעצב, מאייר, מטפגרף, קצת מקודד.<br>
+        בוגר תקשורת חזותית בבצלאל.<br>
+        <a href="https://instagram.com/benayahmr" target="_blank" rel="noopener noreferrer">אינסטגרם</a> &middot;
+        <a href="mailto:benayahmr@email.com">מייל</a> &middot;
+        <a href="tel:+972546109796">טלפון</a>
+      </p>
+      
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+  <script>
+    const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint, Query } = Matter;
+  
+    const engine = Engine.create();
+    const world = engine.world;
+  
+    const canvas = document.getElementById('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  
+    const render = Render.create({
+      canvas: canvas,
+      engine: engine,
+      options: {
+        width: canvas.width,
+        height: canvas.height,
+        wireframes: false,
+        background: 'transparent'
+      }
+    });
+  
+    Render.run(render);
+    Runner.run(Runner.create(), engine);
+
+    document.getElementById('portfolioText').addEventListener('click', () => {
+  location.reload();
+});
+
+  
+    function createWalls() {
+      const ground = Bodies.rectangle(canvas.width / 2, canvas.height + 50, canvas.width, 100, { isStatic: true, render: { visible: false } });
+      const leftWall = Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
+      const rightWall = Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
+      World.add(world, [ground, leftWall, rightWall]);
+    }
+    createWalls();
+  
+    // פונקציה שמוסיפה שדה hoverImage לכל אובייקט לפי השם של image עם תוספת _sat
+    function addHoverImages(arr) {
+      return arr.map(obj => {
+        // לדוגמה 'images/asufa_pic.png' -> 'images/asufa_pic_sat.png'
+        const parts = obj.image.split('.');
+        const ext = parts.pop();
+        const base = parts.join('.');
+        return {
+          ...obj,
+          hoverImage: `${base}_sat.${ext}`
+        };
+      });
+    }
+  
+    let squareData = [
+      { sizePercent: 20, color: '#333', title: 'לטרינג', text: 'לטרינג', image: 'images/lettering_pic.png', extraImages: [] },
+      { sizePercent: 10, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.png', extraImages:[] },
+      { sizePercent: 22, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.png', extraImages: [] },
+      { sizePercent: 24, color: '#333', title: 'אסופה', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.png', extraImages: [] },
+      { sizePercent: 10, color: '#333', title: 'אלגו', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.png', extraImages: [] },
+      { sizePercent: 20, color: '#333', title: 'דולה', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.png', extraImages: [] },
+      { sizePercent: 16, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.png', extraImages: [] },
+      { sizePercent: 10, color: '#333', title: 'לטרינג', text: 'לטרינג', image: 'images/lettering_pic.png', extraImages: [] }
+    ];
+  
+    squareData = addHoverImages(squareData);
+
+
+    // יצירת גוף פיזיקלי עגול
+const logoCircle = Bodies.circle(canvas.width / 2, -100, 50, {
+  restitution: 0.6,
+  friction: 0.8,
+  isStatic: false,
+  label: 'logo-circle',
+  render: { visible: false } // מוסתר כי נציג אותו עם HTML
+});
+
+// יצירת האלמנט הוויזואלי הצף
+const logoElem = document.createElement('div');
+logoElem.className = 'variable-font-circle';
+logoElem.innerHTML = `<span>ב</span>`;
+document.body.appendChild(logoElem);
+const logoSpan = logoElem.querySelector('span');
+
+// עדכון מיקום האלמנט כל פריים
+(function syncLogoPosition() {
+  requestAnimationFrame(syncLogoPosition);
+  const { x, y } = logoCircle.position;
+  logoElem.style.left = `${x - 50}px`;
+  logoElem.style.top = `${y - 50}px`;
+})();
+
+  
+    let currentIndex = 0;
+    const squares = [];
+    let dropInterval = null;
+  
+    function createResponsiveSquare(x, y, sizePercent, color, info) {
+      const size = (canvas.width * sizePercent) / 100;
+      const imageOriginalSize = 1207;
+      let body;
+  
+      if (info.title === "לטרינג") {
+        const radius = size / 2;
+        body = Bodies.circle(x, y, radius, {
+          restitution: 0.6,
+          friction: 0.8,
+          render: {
+            sprite: {
+              texture: info.image,
+              xScale: (radius * 2) / imageOriginalSize,
+              yScale: (radius * 2) / imageOriginalSize
+            }
+          }
+        });
+      } else {
+        body = Bodies.rectangle(x, y, size, size, {
+          restitution: 0.6,
+          friction: 0.8,
+          render: {
+            sprite: {
+              texture: info.image,
+              xScale: size / imageOriginalSize,
+              yScale: size / imageOriginalSize
+            }
+          }
+        });
+      }
+  
+      body.label = 'clickable-square';
+      body.customInfo = info;
+      World.add(world, body);
+      squares.push(body);
+      return body;
+    }
+  
+    function startDropAnimation() {
+  currentIndex = 0;
+  if (dropInterval) {
+    clearInterval(dropInterval);
+  }
+  dropInterval = setInterval(() => {
+    if (currentIndex >= squareData.length) {
+      clearInterval(dropInterval);
+      dropInterval = null;
+      return;
+    }
+
+    // נגרום לעיגול להופיע מאוחר יותר
+    if (currentIndex === 3) {
+      World.add(world, logoCircle);
+    }
+
+    const sq = squareData[currentIndex];
+    const x = Math.random() * (canvas.width - 200) + 100;
+    const yStart = -150 - Math.random() * 100;
+    createResponsiveSquare(x, yStart, sq.sizePercent, sq.color, sq);
+    currentIndex++;
+  }, 500);
+}
+
+
+
+    startDropAnimation();
+  
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: { stiffness: 0.2, render: { visible: false } }
+    });
+    World.add(world, mouseConstraint);
+  
+    let expandedSquare = null;
+    let expandedContentElem = null;
+    let closeBtn = null;
+  
+    let mouseDownPos = null;
+    let mouseUpPos = null;
+    const dragThreshold = 5;
+  
+    canvas.addEventListener('mousedown', (e) => {
+      mouseDownPos = { x: e.clientX, y: e.clientY };
+    });
+  
+    canvas.addEventListener('mouseup', (e) => {
+      mouseUpPos = { x: e.clientX, y: e.clientY };
+      if (!mouseDownPos) return;
+      const dx = mouseUpPos.x - mouseDownPos.x;
+      const dy = mouseUpPos.y - mouseDownPos.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist <= dragThreshold && !expandedSquare) {
+        const clicked = Query.point(world.bodies, mouseUpPos);
+        clicked.forEach(body => {
+          if (body.label === 'clickable-square') {
+            openSquareExpanded(body);
+          }
+        });
+      }
+      mouseDownPos = null;
+      mouseUpPos = null;
+    });
+  
+    function openSquareExpanded(body) {
+      if (expandedSquare) return;
+  
+      expandedSquare = body;
+      Matter.Body.setStatic(body, true);
+  
+      const bounds = body.bounds;
+      const pos = body.position;
+      const width = bounds.max.x - bounds.min.x;
+      const height = bounds.max.y - bounds.min.y;
+      const left = pos.x - width / 2;
+      const top = pos.y - height / 2;
+  
+      canvas.style.pointerEvents = 'none';
+  
+      expandedContentElem = document.createElement('div');
+      expandedContentElem.className = 'expanded-content';
+      expandedContentElem.style.backgroundColor = '#E4E2D9';
+      expandedContentElem.style.width = width + 'px';
+      expandedContentElem.style.height = height + 'px';
+      expandedContentElem.style.left = left + 'px';
+      expandedContentElem.style.top = top + 'px';
+      expandedContentElem.style.transform = 'translateX(0)';
+  
+      expandedContentElem.innerHTML = `
+        <button class="close-expanded-btn" aria-label="סגור">&times;</button>
+        <img src="${body.customInfo.image}" alt="${body.customInfo.title}" class="main-image" />
+        <h2>${body.customInfo.title}</h2>
+        <p>${body.customInfo.text}</p>
+        <div class="extra-images">
+          ${body.customInfo.extraImages.map(src => `<img src="${src}" class="extra-image" />`).join('')}
+        </div>
+      `;
+  
+
+      document.addEventListener('mousemove', (e) => {
+        const xRatio = 1 - (e.clientX / window.innerWidth);
+        const yRatio = 1 - (e.clientY / window.innerHeight);
+
+  const wght = 20 + xRatio * 40; // בין 20 ל-60
+  const wdth = 20 + yRatio * 40;
+
+  logoSpan.style.fontVariationSettings = `"wght" ${wght.toFixed(1)}, "wdth" ${wdth.toFixed(1)}`;
+});
+
+      document.body.appendChild(expandedContentElem);
+  
+      requestAnimationFrame(() => {
+        expandedContentElem.style.transition = 'all 0.5s ease';
+        expandedContentElem.style.width = '80vw';
+        expandedContentElem.style.height = '100vh';
+        expandedContentElem.style.left = '50%';
+        expandedContentElem.style.top = '0';
+        expandedContentElem.style.transform = 'translateX(-50%)';
+      });
+  
+      engine.enabled = false;
+  
+      closeBtn = expandedContentElem.querySelector('.close-expanded-btn');
+      closeBtn.addEventListener('click', closeSquareExpanded);
+      setTimeout(() => {
+        window.addEventListener('click', outsideClickListener);
+        window.addEventListener('keydown', escListener);
+      }, 100);
+    }
+  
+    function closeSquareExpanded() {
+      if (!expandedSquare) return;
+  
+      Matter.Body.setStatic(expandedSquare, false);
+      engine.enabled = true;
+  
+      const body = expandedSquare;
+      const bounds = body.bounds;
+      const pos = body.position;
+      const width = bounds.max.x - bounds.min.x;
+      const height = bounds.max.y - bounds.min.y;
+      const left = pos.x - width / 2;
+      const top = pos.y - height / 2;
+  
+      expandedContentElem.style.transition = 'all 0.3s ease';
+      expandedContentElem.style.width = width + 'px';
+      expandedContentElem.style.height = height + 'px';
+      expandedContentElem.style.left = left + 'px';
+      expandedContentElem.style.top = top + 'px';
+      expandedContentElem.style.transform = 'translateX(0)';
+  
+      setTimeout(() => {
+        if (expandedContentElem && expandedContentElem.parentNode) {
+          expandedContentElem.parentNode.removeChild(expandedContentElem);
+        }
+        expandedContentElem = null;
+        expandedSquare = null;
+        canvas.style.pointerEvents = 'auto';
+      }, 300);
+  
+      window.removeEventListener('click', outsideClickListener);
+      window.removeEventListener('keydown', escListener);
+    }
+  
+    function outsideClickListener(e) {
+      if (!expandedContentElem) return;
+      if (!expandedContentElem.contains(e.target) && e.target !== canvas) {
+        closeSquareExpanded();
+      }
+    }
+  
+    function escListener(e) {
+      if (e.key === 'Escape') {
+        closeSquareExpanded();
+      }
+    }
+  
+    // --- הוספת טיפול ב-hover לשינוי התמונה לתמונה עם _sat ---
+    let hoveredSquare = null;
+  
+    canvas.addEventListener('mousemove', (e) => {
+      const mousePos = { x: e.clientX, y: e.clientY };
+      const foundBodies = Query.point(world.bodies, mousePos);
+      const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
+  
+      if (foundSquare !== hoveredSquare) {
+        if (hoveredSquare) {
+          // מחזיר את התמונה הרגילה כשעוזבים את הריבוע
+          hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.image;
+        }
+  
+        hoveredSquare = foundSquare;
+  
+        if (hoveredSquare) {
+          // משנה לתמונה המוארת עם _sat כשעוברים מעל הריבוע
+          if (hoveredSquare.customInfo.hoverImage) {
+            hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.hoverImage;
+          }
+        }
+      }
+    });
+  
+    // מחזיר לתמונה רגילה כשעוזבים את הקנבס כולו
+    canvas.addEventListener('mouseleave', () => {
+      if (hoveredSquare) {
+        hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.image;
+        hoveredSquare = null;
+      }
+    });
+  
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      const newWidth = window.innerWidth;
+      if (Math.abs(newWidth - lastWidth) < 100) return;
+      lastWidth = newWidth;
+  
+      if (expandedContentElem) {
+        closeSquareExpanded();
+      }
+  
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      render.canvas.width = canvas.width;
+      render.canvas.height = canvas.height;
+  
+      World.clear(world);
+      Engine.clear(engine);
+      createWalls();
+      squares.length = 0;
+      engine.enabled = true;
+      startDropAnimation();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+  const xRatio = e.clientX / window.innerWidth;
+  const yRatio = e.clientY / window.innerHeight;
+
+  const min = 20, max = 60;
+
+  const wght = min + xRatio * (max - min);
+  const wdth = min + yRatio * (max - min);
+
+  logoSpan.style.fontVariationSettings = `"wght" ${wght.toFixed(1)}, "wdth" ${wdth.toFixed(1)}`;
+});
+
+
+  </script>
+  
+  </body>
+</html>
