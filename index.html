@@ -135,7 +135,7 @@
       display: flex;
       justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
       align-items: center;
-      gap: 1vw; /* רווח אופקי של 3vw בין הכותרת לפסקה */
+      gap: 1vw; /* רווח אופקי של 1vw בין הכותרת לפסקה */
     }
 
     .header-flex-container h1 {
@@ -391,7 +391,7 @@
     // פונקציה שמוסיפה שדה hoverImage לכל אובייקט לפי השם של image עם תוספת _sat
     function addHoverImages(arr) {
       return arr.map(obj => {
-        // לדוגמה 'images/asufa_pic.png' -> 'images/asufa_pic_sat.png'
+        // לדוגמה 'images/asufa_pic.png' -> 'images/asufa_pic_sat.webp'
         const parts = obj.image.split('.');
         const ext = parts.pop();
         const base = parts.join('.');
@@ -403,14 +403,14 @@
     }
   
     let squareData = [
-      { sizePercent: 20, color: '#333', title: 'לטרינג', text: 'לטרינג', image: 'images/lettering_pic.png', extraImages: [] },
-      { sizePercent: 10, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.webp', extraImages:[] },
-      { sizePercent: 22, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.webp', extraImages: [] },
-      { sizePercent: 24, color: '#333', title: 'אסופה', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', extraImages: [] },
-      { sizePercent: 10, color: '#333', title: 'אלגו', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', extraImages: [] },
-      { sizePercent: 20, color: '#333', title: 'דולה', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', extraImages: [] },
-      { sizePercent: 16, color: '#333', title: 'ארמון', text: 'ארמון ספרים', image: 'images/armon_pic.webp', extraImages: [] },
-      { sizePercent: 10, color: '#333', title: 'לטרינג', text: 'לטרינג', image: 'images/lettering_pic.png', extraImages: [] }
+      { sizePercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering' },
+      { sizePercent: 10, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 22, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 24, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 10, color: '#333', title: 'algo', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 20, color: '#333', title: 'doula', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 16, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/lettering' },
+      { sizePercent: 10, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering' }
     ];
   
     squareData = addHoverImages(squareData);
@@ -450,7 +450,7 @@ const logoSpan = logoElem.querySelector('span');
       const imageOriginalSize = 1207;
       let body;
   
-      if (info.title === "לטרינג") {
+      if (info.title === "lettering") {
         const radius = size / 2;
         body = Bodies.circle(x, y, radius, {
           restitution: 0.6,
@@ -574,16 +574,15 @@ const logoSpan = logoElem.querySelector('span');
       expandedContentElem.style.top = top + 'px';
       expandedContentElem.style.transform = 'translateX(0)';
   
-      expandedContentElem.innerHTML = `
-        <button class="close-expanded-btn" aria-label="סגור">&times;</button>
-        <img src="${body.customInfo.image}" alt="${body.customInfo.title}" class="main-image" />
-        <h2>${body.customInfo.title}</h2>
-        <p>${body.customInfo.text}</p>
-        <div class="extra-images">
-          ${body.customInfo.extraImages.map(src => `<img src="${src}" class="extra-image" />`).join('')}
-        </div>
-      `;
+
   
+      expandedContentElem.innerHTML = `
+  <button class="close-expanded-btn" aria-label="סגור">&times;</button>
+  <iframe src="${body.customInfo.url}" 
+          frameborder="0" 
+          style="width: 100%; height: 100%; border: none;"></iframe>
+`;
+      
 
       document.addEventListener('mousemove', (e) => {
         const xRatio = 1 - (e.clientX / window.innerWidth);
