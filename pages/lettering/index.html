@@ -1,60 +1,168 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>לטרינג</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- פונט NarkissBlock -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     @font-face {
       font-family: 'NarkissBlock';
-      src: url('../../fonts/NarkissBlock-Regular.otf') format('opentype');
-      font-weight: bold;
-      font-style: normal;
+      src: url('../../fonts/NarkissBlock-heavy.otf') format('opentype');
+      font-weight: heavy;
     }
 
     body {
       margin: 0;
       padding: 40px;
-      /* background-color: #fff; */
       font-family: 'NarkissBlock', sans-serif;
       color: #000;
     }
 
     h1 {
-      font-size: 3em;
+      font-size: 2.5vw;
       font-weight: bold;
       text-align: right;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 4px;
+      column-gap: 4px;
     }
 
     .grid-item {
       width: 100%;
       aspect-ratio: 1 / 1;
-      background-color: #ccc;
-      border: 2px solid #999;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .grid-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* הפופאפ */
+    #popup {
+      position: fixed;
+      inset: 0;
+      background-color: #e4e2d9d2;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-overlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .popup-overlay img {
+      height: 80vh;
+      width: 90vw;
+      object-fit: contain;
+      cursor: default;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #popup.show img {
+      opacity: 1;
+      transform: scale(1);
     }
   </style>
 </head>
 <body>
 
-  <h1>לטרינג</h1>
+  <h1>עבודות לטרינג</h1>
 
   <div class="grid">
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"></div>
+    <div class="grid-item"><img src="images/lettering_1.jpg" alt="לטרינג 1"></div>
+    <div class="grid-item"><img src="images/lettering_2.jpg" alt="לטרינג 2"></div>
+    <div class="grid-item"><img src="images/lettering_3.jpg" alt="לטרינג 3"></div>
+    <div class="grid-item"><img src="images/lettering_4.jpg" alt="לטרינג 4"></div>
+    <div class="grid-item"><img src="images/lettering_5.jpg" alt="לטרינג 5"></div>
+    <div class="grid-item"><img src="images/lettering_6.jpg" alt="לטרינג 6"></div>
+    <div class="grid-item"><img src="images/lettering_7.jpg" alt="לטרינג 7"></div>
+    <div class="grid-item"><img src="images/lettering_8.jpg" alt="לטרינג 8"></div>
+    <div class="grid-item"><img src="images/lettering_9.jpg" alt="לטרינג 9"></div>
+    <div class="grid-item"><img src="images/lettering_10.jpg" alt="לטרינג 10"></div>
+    <div class="grid-item"><img src="images/lettering_11.jpg" alt="לטרינג 11"></div>
+    <div class="grid-item"><img src="images/lettering_12.jpg" alt="לטרינג 12"></div>
   </div>
+
+  <!-- פופאפ -->
+  <div id="popup">
+    <div class="popup-overlay" onclick="closePopup(event)">
+      <img id="popup-img" src="" alt="תמונה גדולה" />
+    </div>
+  </div>
+
+  <script>
+    const popup = document.getElementById('popup');
+    const popupOverlay = popup.querySelector('.popup-overlay');
+    const popupImg = document.getElementById('popup-img');
+    const gridItems = document.querySelectorAll('.grid-item');
+
+    const imageList = Array.from(gridItems).map(item => item.querySelector('img').src);
+    let currentIndex = 0;
+
+    gridItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        const src = item.querySelector('img').src;
+        popupImg.src = src;
+        popup.style.display = 'flex';
+
+        currentIndex = index; // שמירת אינדקס
+
+        requestAnimationFrame(() => {
+          popup.classList.add('show');
+        });
+
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closePopup(e) {
+      if (e.target === popupOverlay) {
+        popup.classList.remove('show');
+        setTimeout(() => {
+          popup.style.display = 'none';
+          popupImg.src = '';
+          document.body.style.overflow = '';
+        }, 300); // זמן תואם ל-transition
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (popup.style.display === 'flex') {
+        if (e.key === 'Escape') {
+          closePopup({ target: popupOverlay });
+        } else if (e.key === 'ArrowLeft') {
+          currentIndex = (currentIndex + 1) % imageList.length;
+          popupImg.src = imageList[currentIndex];
+        } else if (e.key === 'ArrowRight') {
+          currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+          popupImg.src = imageList[currentIndex];
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
