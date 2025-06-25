@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>לטרינג</title>
+  <title>ארמון ספרים</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
    @font-face {
@@ -13,12 +13,24 @@
     }
 
     @font-face {
+      font-family: 'armon';
+      src: url('fonts/armon.ttf') format('opentype');
+    }
+
+
+    @font-face {
       font-family: 'NarkissBlock-heavy';
       src: url('fonts/NarkissBlock-Heavy.otf') format('opentype');
       font-weight: normal;
       font-style: normal;
     }
 
+    @font-face {
+      font-family: 'PortfolioFont';
+      src: url('fonts/portfolioVF.ttf') format('truetype-variations');
+      /* font-weight: 500; */
+      font-style: italic;
+    }
 
     body {
       margin: 0;
@@ -28,11 +40,70 @@
     }
 
     h1 {
-      font-size: 2.5vw;
-      font-weight: bold;
+      font-family: 'PortfolioFont', serif;
+      font-size: 60px;
+      font-weight: 800;
       text-align: right;
-      margin-bottom: 20px;
+      margin-bottom: -10px;
+      margin-top: -10px;
+
+      color:#000000;
     }
+
+    h2 {
+      font-family: 'PortfolioFont', serif;
+      font-size: 55px;
+      font-weight: 500;
+      text-align: right;
+      margin-bottom: -10px;
+      margin-top: -10px;
+
+      color:#de7b7b;
+    }
+
+
+    p {
+      font-family: 'NarkissBlock', sans-serif;
+
+      font-size: 20px;
+      line-height: 23px;
+      text-align: right;
+
+      /* margin-bottom: 10px; */
+    }
+
+    .header-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: center;
+      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      margin-bottom: 15px;
+    }
+
+    .text-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: top;
+      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      margin-bottom: 15px;
+    }
+
+    .image {
+  width: 100%;
+}
+
+.image img {
+  width: 100%;
+  height: auto;       /* שומר על פרופורציות מקוריות */
+
+  display: block;     /* מסיר רווחים מתחת לתמונה */
+}
+
+strong {
+      font-family: 'NarkissBlock-heavy', sans-serif;
+      /* color:#de7b7b; */
+      font-weight:heavy;
+       }
 
     .grid {
       display: grid;
@@ -98,22 +169,37 @@
 </head>
 <body>
 
-  <h1>עבודות לטרינג</h1>
+<div class="header-flex-container">
+  <h1>ארמון ספרים</h1>
+  <h2> שפה גרפית ופונט ראווה </h2>
+</div>
 
-  <div class="grid">
-    <div class="grid-item"><img src="images/lettering_1.jpg" alt="לטרינג 1"></div>
-    <div class="grid-item"><img src="images/lettering_2.jpg" alt="לטרינג 2"></div>
-    <div class="grid-item"><img src="images/lettering_3.jpg" alt="לטרינג 3"></div>
-    <div class="grid-item"><img src="images/lettering_4.jpg" alt="לטרינג 4"></div>
-    <div class="grid-item"><img src="images/lettering_5.jpg" alt="לטרינג 5"></div>
-    <div class="grid-item"><img src="images/lettering_6.jpg" alt="לטרינג 6"></div>
-    <div class="grid-item"><img src="images/lettering_7.jpg" alt="לטרינג 7"></div>
-    <div class="grid-item"><img src="images/lettering_8.jpg" alt="לטרינג 8"></div>
-    <div class="grid-item"><img src="images/lettering_9.jpg" alt="לטרינג 9"></div>
-    <div class="grid-item"><img src="images/lettering_10.jpg" alt="לטרינג 10"></div>
-    <div class="grid-item"><img src="images/lettering_11.jpg" alt="לטרינג 11"></div>
-    <div class="grid-item"><img src="images/lettering_12.jpg" alt="לטרינג 12"></div>
-  </div>
+<div class="header-flex-container">
+
+  <div class="image"  style="transform:scale(0.9); transform-origin: center right;">
+    <img src="images/armon_icon 1.png" alt="ארמון 1" >
+    </div>
+
+  <p>הוצאת <strong>ארמון ספרים</strong> עוסקת בספרות מקור ישראלית בתחום ההגות והרוח, בדגש על כותבים צעירים ובתחילת דרכם. ההוצאה מתפקדת כחלון המאיר מן המקורות שלנו - ההיסטוריה הישראלית והיהודית, אל הכאן והעכשיו.  
+  <br><br>
+השפה הגרפית שואבת השראה מעיצוב נאיבי ישראלי נוסטלגי, ומבוסס על דימויים ישראלים וגזרי נייר.
+<br>
+לצורך כך יצרתי פונט גזרי נייר המכיל מספר וריאנטים לאותיות, בשביל לשמר את האקראיות של הטכניקה המקורית.
+  </p>
+
+  <input 
+  type="text" 
+  placeholder="כתוב כאן טקסט..." 
+  style="width: 100%; font-family: 'armon'; font-size: 20px; background: transparent; border: none; outline: none; color: black;"
+>
+
+</div>
+
+<div class="image">
+  <img src="images/armon_cover 1.jpg" alt="ארמון 1">
+</div>
+
+<input type="text" id="fname" name="fname" style="font-family:armon ; color: rgba(0, 0, 0, 0); border-color: rgba(0, 0, 0, 0)">
 
   <!-- פופאפ -->
   <div id="popup">
