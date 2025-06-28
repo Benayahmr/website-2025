@@ -400,14 +400,14 @@
     }
   
     let squareData = [
-      { sizePercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering' },
-      { sizePercent: 10, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 22, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 24, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 10, color: '#333', title: 'algo', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 20, color: '#333', title: 'doula', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 16, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 10, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering2_pic.png', url: 'pages/lettering' }
+      { widthPercent: 20, heightPercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering' },
+      { widthPercent: 10, heightPercent: 10, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
+      { widthPercent: 22, heightPercent: 22, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
+      { widthPercent: 24, heightPercent: 24, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/lettering' },
+      { widthPercent: 10, heightPercent: 10, color: '#333', title: 'algo', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', url: 'pages/lettering' },
+      { widthPercent: 20, heightPercent: 20, color: '#333', title: 'doula', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', url: 'pages/lettering' },
+      { widthPercent: 16, heightPercent: 16, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
+      { widthPercent: 10, heightPercent: 10, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering2_pic.png', url: 'pages/lettering' }
     ];
   
     squareData = addHoverImages(squareData);
@@ -443,35 +443,38 @@ const logoSpan = logoElem.querySelector('span');
     let dropInterval = null;
   
     function createResponsiveSquare(x, y, sizePercent, color, info) {
-      const size = (canvas.width * sizePercent) / 100;
+      const width = (canvas.width * (info.widthPercent || info.sizePercent || 15)) / 100;
+const height = (canvas.height * (info.heightPercent || info.sizePercent || 15)) / 100;
       const imageOriginalSize = 1207;
       let body;
   
-      if (info.title === "lettering") {
-        const radius = size / 2;
-        body = Bodies.circle(x, y, radius, {
-          restitution: 0.6,
-          friction: 0.8,
-          render: {
-            sprite: {
-              texture: info.image,
-              xScale: (radius * 2) / imageOriginalSize,
-              yScale: (radius * 2) / imageOriginalSize
-            }
-          }
-        });
+if (info.title === "lettering") {
+  const radius = Math.min(width, height) / 2;
+  body = Bodies.circle(x, y, radius, {
+    restitution: 0.6,
+    friction: 0.8,
+    render: {
+      sprite: {
+        texture: info.image,
+        xScale: (radius * 2) / imageOriginalSize,
+        yScale: (radius * 2) / imageOriginalSize
+      }
+    }
+  });
+
+
       } else {
-        body = Bodies.rectangle(x, y, size, size, {
-          restitution: 0.6,
-          friction: 0.8,
-          render: {
-            sprite: {
-              texture: info.image,
-              xScale: size / imageOriginalSize,
-              yScale: size / imageOriginalSize
-            }
-          }
-        });
+        body = Bodies.rectangle(x, y, width, height, {
+  restitution: 0.6,
+  friction: 0.8,
+  render: {
+    sprite: {
+      texture: info.image,
+      xScale: width / imageOriginalSize,
+      yScale: height / imageOriginalSize
+    }
+  }
+});
       }
   
       body.label = 'clickable-square';
