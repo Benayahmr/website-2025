@@ -400,14 +400,14 @@
     }
   
     let squareData = [
-      { sizePercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering' },
-      { sizePercent: 10, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 22, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 24, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 10, color: '#333', title: 'algo', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 20, color: '#333', title: 'doula', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', url: 'pages/lettering' },
-      { sizePercent: 16, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' },
-      { sizePercent: 10, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering2_pic.png', url: 'pages/lettering' }
+      { sizePercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering',aspectRatio: 1 },
+      { sizePercent: 10, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' ,aspectRatio: 1},
+      { sizePercent: 22, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' ,aspectRatio: 1},
+      { sizePercent: 24, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/lettering' ,aspectRatio: 1},
+      { sizePercent: 10, color: '#333', title: 'algo', text: 'איורים לארגון ׳אלגו׳', image: 'images/algo_pic.webp', url: 'pages/lettering' ,aspectRatio: 1},
+      { sizePercent: 20, color: '#333', title: 'doula', text: 'אריזה גרפית לדולה', image: 'images/doula_pic.webp', url: 'pages/lettering' ,aspectRatio: 1},
+      { sizePercent: 16, color: '#333', title: 'armon', text: 'ארמון ספרים', image: 'images/armon_pic.webp', url: 'pages/armon' ,aspectRatio: 1},
+      { sizePercent: 10, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering2_pic.png', url: 'pages/lettering' ,aspectRatio: 1}
     ];
   
     squareData = addHoverImages(squareData);
@@ -461,17 +461,24 @@ const logoSpan = logoElem.querySelector('span');
           }
         });
       } else {
-        body = Bodies.rectangle(x, y, size, size, {
-          restitution: 0.6,
-          friction: 0.8,
-          render: {
-            sprite: {
-              texture: info.image,
-              xScale: size / imageOriginalSize,
-              yScale: size / imageOriginalSize
-            }
-          }
-        });
+
+        const aspectRatio = info.aspectRatio || 1;
+const width = size;
+const height = size / aspectRatio;
+
+body = Bodies.rectangle(x, y, width, height, {
+  restitution: 0.6,
+  friction: 0.8,
+  render: {
+    sprite: {
+      texture: info.image,
+      xScale: width / imageOriginalSize,
+      yScale: height / imageOriginalSize
+    }
+  }
+});
+
+
       }
   
       body.label = 'clickable-square';
