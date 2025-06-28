@@ -662,27 +662,27 @@ const logoSpan = logoElem.querySelector('span');
     // --- הוספת טיפול ב-hover לשינוי התמונה לתמונה עם _sat ---
     let hoveredSquare = null;
   
-    canvas.addEventListener('mousemove', (e) => {
-      const mousePos = { x: e.clientX, y: e.clientY };
-      const foundBodies = Query.point(world.bodies, mousePos);
-      const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
-  
-      if (foundSquare !== hoveredSquare) {
-        if (hoveredSquare) {
-          // מחזיר את התמונה הרגילה כשעוזבים את הריבוע
-          hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.image;
-        }
-  
-        hoveredSquare = foundSquare;
-  
-        if (hoveredSquare) {
-          // משנה לתמונה המוארת עם _sat כשעוברים מעל הריבוע
-          if (hoveredSquare.customInfo.hoverImage) {
-            hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.hoverImage;
-          }
-        }
-      }
-    });
+canvas.addEventListener('mousemove', (e) => {
+  const mousePos = { x: e.clientX, y: e.clientY };
+  const foundBodies = Query.point(world.bodies, mousePos);
+  const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
+
+  // שינוי הסמן
+  canvas.style.cursor = foundSquare ? 'pointer' : 'default';
+
+  if (foundSquare !== hoveredSquare) {
+    if (hoveredSquare) {
+      hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.image;
+    }
+
+    hoveredSquare = foundSquare;
+
+    if (hoveredSquare && hoveredSquare.customInfo.hoverImage) {
+      hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.hoverImage;
+    }
+  }
+});
+
   
     // מחזיר לתמונה רגילה כשעוזבים את הקנבס כולו
     canvas.addEventListener('mouseleave', () => {
