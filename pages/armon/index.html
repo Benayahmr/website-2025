@@ -62,6 +62,14 @@
     }
 
 
+    .header-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: center;
+      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      margin-bottom: 15px;
+    }
+
     p {
       font-family: 'NarkissBlock', sans-serif;
 
@@ -72,13 +80,6 @@
       /* margin-bottom: 10px; */
     }
 
-    .header-flex-container {
-      display: flex;
-      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
-      align-items: center;
-      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
-      margin-bottom: 15px;
-    }
 
     .text-flex-container {
       display: flex;
