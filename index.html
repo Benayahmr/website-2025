@@ -107,6 +107,10 @@
       direction: rtl;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     .header {
       position: absolute;
       top: 20px;
@@ -275,10 +279,12 @@
         font-size: 12vw;
       }
       canvas {
-        position: static;
+        position: static !important;
         width: 100% !important;
-        display: block;
-        margin-top: 100px;
+        display: block !important;
+        min-height: 100vh;
+        margin-top: 120px;
+        z-index: 1;
       }
     }
   </style>
