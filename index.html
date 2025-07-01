@@ -262,20 +262,6 @@
     .close-expanded-btn:hover {
       color: #E4E2D9;
     }
-
-    @media (max-width: 600px) {
-      html, body {
-        overflow-x: hidden !important;
-        overscroll-behavior-x: contain;
-        max-width: 100vw;
-      }
-      body {
-        position: static;
-      }
-      .expanded-content {
-        overflow-x: hidden;
-      }
-    }
   </style>
 </head>
 <body>
@@ -369,9 +355,8 @@
     const world = engine.world;
   
     const canvas = document.getElementById('canvas');
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight + (isMobile ? 100 : 0);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   
     const render = Render.create({
       canvas: canvas,
@@ -393,8 +378,7 @@ canvas.height = window.innerHeight + (isMobile ? 100 : 0);
 
   
     function createWalls() {
-      const groundY = (isMobile ? window.innerHeight + 100 : canvas.height) + 50;
-      const ground = Bodies.rectangle(canvas.width / 2, groundY, canvas.width, 100, { isStatic: true, render: { visible: false } });
+      const ground = Bodies.rectangle(canvas.width / 2, canvas.height + 50, canvas.width, 100, { isStatic: true, render: { visible: false } });
       const leftWall = Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       const rightWall = Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       World.add(world, [ground, leftWall, rightWall]);
@@ -459,10 +443,7 @@ const logoSpan = logoElem.querySelector('span');
     let dropInterval = null;
   
     function createResponsiveSquare(x, y, sizePercent, color, info) {
-      // הגדלה פי 2.5 למובייל ולדסקטופ
-      let scale = 2.5;
-      // אפשר להקטין מעט במובייל אם צריך, כרגע זה אחיד
-      const size = (canvas.width * sizePercent * scale) / 100;
+      const size = (canvas.width * sizePercent) / 100;
       const imageOriginalSize = 1207;
       let body;
   
@@ -539,15 +520,8 @@ body = Bodies.rectangle(x, y, width, height, {
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
-      constraint: { stiffness: isMobile ? 0 : 0.2, render: { visible: false } },
-      // במובייל לא נאפשר גרירה כלל
-      collisionFilter: isMobile ? { mask: 0 } : undefined
+      constraint: { stiffness: 0.2, render: { visible: false } }
     });
-    if (isMobile) {
-      mouseConstraint.constraint.stiffness = 0;
-      mouseConstraint.constraint.length = 0;
-      mouseConstraint.constraint.damping = 1;
-    }
     World.add(world, mouseConstraint);
   
     let expandedSquare = null;
@@ -736,7 +710,7 @@ canvas.addEventListener('mousemove', (e) => {
       }
   
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight + (isMobile ? 100 : 0);
+      canvas.height = window.innerHeight;
       render.canvas.width = canvas.width;
       render.canvas.height = canvas.height;
   
