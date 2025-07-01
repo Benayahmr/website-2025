@@ -149,15 +149,16 @@ strong {
       cursor: pointer;
     }
 
-    .popup-overlay img {
-      height: 80vh;
-      width: 80vh;
-      object-fit: contain;
-      cursor: default;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+.popup-overlay img {
+  max-height: 95vh;
+  max-width: 95vw;
+  object-fit: contain;
+  cursor: default;
+  opacity: 0;
+  transform: scale(0.95); /* אפשר גם scale(1) */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 
     #popup.show img {
       opacity: 1;
@@ -206,29 +207,29 @@ strong {
   </div>
 
   <script>
-    const popup = document.getElementById('popup');
-    const popupOverlay = popup.querySelector('.popup-overlay');
-    const popupImg = document.getElementById('popup-img');
-    const gridItems = document.querySelectorAll('.grid-item');
+  const popup = document.getElementById('popup');
+const popupOverlay = popup.querySelector('.popup-overlay');
+const popupImg = document.getElementById('popup-img');
 
-    const imageList = Array.from(gridItems).map(item => item.querySelector('img').src);
-    let currentIndex = 0;
+// בוחר את כל התמונות בדף שיש להן את המחלקה .image img
+const images = document.querySelectorAll('.image img');
+const imageList = Array.from(images).map(img => img.src);
+let currentIndex = 0;
 
-    gridItems.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        const src = item.querySelector('img').src;
-        popupImg.src = src;
-        popup.style.display = 'flex';
+images.forEach((img, index) => {
+  img.addEventListener('click', () => {
+    popupImg.src = img.src;
+    popup.style.display = 'flex';
+    currentIndex = index;
 
-        currentIndex = index; // שמירת אינדקס
-
-        requestAnimationFrame(() => {
-          popup.classList.add('show');
-        });
-
-        document.body.style.overflow = 'hidden';
-      });
+    requestAnimationFrame(() => {
+      popup.classList.add('show');
     });
+
+    document.body.style.overflow = 'hidden';
+  });
+});
+
 
     function closePopup(e) {
       if (e.target === popupOverlay) {
