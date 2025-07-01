@@ -107,10 +107,6 @@
       direction: rtl;
     }
 
-    html, body {
-      height: 100%;
-    }
-
     .header {
       position: absolute;
       top: 20px;
@@ -279,12 +275,10 @@
         font-size: 12vw;
       }
       canvas {
-        position: static !important;
+        position: static;
         width: 100% !important;
-        display: block !important;
-        min-height: 100vh;
-        margin-top: 120px;
-        z-index: 1;
+        display: block;
+        margin-top: 100px;
       }
     }
   </style>
@@ -415,7 +409,7 @@
     }
   
     function createWalls() {
-      const groundY = isMobile() ? canvas.height + 550 : canvas.height + 50;
+      const groundY = canvas.height - 50;
       const ground = Bodies.rectangle(canvas.width / 2, groundY, canvas.width, 100, { isStatic: true, render: { visible: false } });
       const leftWall = Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       const rightWall = Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
@@ -482,7 +476,7 @@ const logoSpan = logoElem.querySelector('span');
   
     function createResponsiveSquare(x, y, sizePercent, color, info) {
       let size = (canvas.width * sizePercent) / 100;
-      if (isMobile()) size *= 3;
+      if (isMobile()) size *= 2.5;
       const imageOriginalSize = 1207;
       let body;
   
