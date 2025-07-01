@@ -262,7 +262,7 @@
       color: #E4E2D9;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 800px) {
       .header-flex-container h1 {
         font-size: 12vw;
       }
@@ -363,8 +363,16 @@
     const world = engine.world;
   
     const canvas = document.getElementById('canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    function setCanvasSize() {
+      if (isMobile()) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight + 500;
+      } else {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    }
+    setCanvasSize();
   
     const render = Render.create({
       canvas: canvas,
@@ -722,16 +730,15 @@ canvas.addEventListener('mousemove', (e) => {
       const newWidth = window.innerWidth;
       if (Math.abs(newWidth - lastWidth) < 100) return;
       lastWidth = newWidth;
-  
+
       if (expandedContentElem) {
         closeSquareExpanded();
       }
-  
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+
+      setCanvasSize();
       render.canvas.width = canvas.width;
       render.canvas.height = canvas.height;
-  
+
       World.clear(world);
       Engine.clear(engine);
       createWalls();
