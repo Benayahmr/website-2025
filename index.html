@@ -139,6 +139,7 @@
       order: 1; /* הכותרת ראשונה */
       flex-shrink: 0; /* מונע שהכותרת תצטמק */
       transform: translateY(5%);
+
     }
 
     .header-flex-container h1 .black {
@@ -261,71 +262,6 @@
     .close-expanded-btn:hover {
       color: #E4E2D9;
     }
-
-    @media (max-width: 800px) {
-      html, body {
-        height: auto !important;
-        min-height: 100vh;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        width: 100% !important;
-        box-sizing: border-box;
-      }
-      body {
-        padding-top: 130px !important; /* גובה ה-header + רווח */
-        padding-bottom: 100px;
-        width: 100% !important;
-        box-sizing: border-box;
-      }
-      .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 120px;
-        z-index: 1000;
-        background: transparent;
-        box-sizing: border-box;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding: 0 4vw;
-      }
-      .header-flex-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5em;
-        width: 100%;
-        box-sizing: border-box;
-      }
-      .header-flex-container h1 {
-        font-size: 12vw;
-        line-height: 1.1;
-        word-break: break-word;
-        white-space: normal;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0 0 0 0;
-        margin: 0;
-      }
-      .header-flex-container p {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-        word-break: break-word;
-        white-space: normal;
-      }
-      canvas {
-        position: static !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        display: block;
-        margin-top: 0;
-        box-sizing: border-box;
-      }
-    }
   </style>
 </head>
 <body>
@@ -342,10 +278,7 @@
 
   <div class="header">
     <div class="header-flex-container">
-      <h1>
-        <span class="black">בּניה המר</span><br>
-        <span class="pink" id="portfolioText">פּורטפוליוֹ</span>
-      </h1>
+      <h1><span class="black">בּניה המר:</span> <span class="pink" id="portfolioText">פּורטפוליוֹ</span></h1>
       <p>
         אני מעצב, מאייר, מטפגרף, קצת מקודד.<br>
         בוגר תקשורת חזותית בבצלאל.<br>
@@ -353,6 +286,7 @@
         <a href="mailto:benayahmr@email.com">מייל</a> &middot;
         <a href="tel:+972546109796">טלפון</a>
       </p>
+      
     </div>
   </div>
 
@@ -421,16 +355,8 @@
     const world = engine.world;
   
     const canvas = document.getElementById('canvas');
-    function setCanvasSize() {
-      if (isMobile()) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight + 500;
-      } else {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    }
-    setCanvasSize();
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   
     const render = Render.create({
       canvas: canvas,
@@ -451,13 +377,8 @@
 });
 
   
-    function isMobile() {
-      return window.innerWidth < 900;
-    }
-  
     function createWalls() {
-      const groundY = canvas.height - 50;
-      const ground = Bodies.rectangle(canvas.width / 2, groundY, canvas.width, 100, { isStatic: true, render: { visible: false } });
+      const ground = Bodies.rectangle(canvas.width / 2, canvas.height + 50, canvas.width, 100, { isStatic: true, render: { visible: false } });
       const leftWall = Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       const rightWall = Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       World.add(world, [ground, leftWall, rightWall]);
@@ -522,8 +443,7 @@ const logoSpan = logoElem.querySelector('span');
     let dropInterval = null;
   
     function createResponsiveSquare(x, y, sizePercent, color, info) {
-      let size = (canvas.width * sizePercent) / 100;
-      if (isMobile()) size *= 2.5;
+      const size = (canvas.width * sizePercent) / 100;
       const imageOriginalSize = 1207;
       let body;
   
@@ -597,16 +517,12 @@ body = Bodies.rectangle(x, y, width, height, {
 
     startDropAnimation();
   
-    // יצירת קונסטריינט עכבר (גרירה) רק אם לא מובייל
-    let mouseConstraint = null;
-    if (!isMobile()) {
-      const mouse = Mouse.create(render.canvas);
-      mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: { stiffness: 0.2, render: { visible: false } }
-      });
-      World.add(world, mouseConstraint);
-    }
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: { stiffness: 0.2, render: { visible: false } }
+    });
+    World.add(world, mouseConstraint);
   
     let expandedSquare = null;
     let expandedContentElem = null;
@@ -788,15 +704,16 @@ canvas.addEventListener('mousemove', (e) => {
       const newWidth = window.innerWidth;
       if (Math.abs(newWidth - lastWidth) < 100) return;
       lastWidth = newWidth;
-
+  
       if (expandedContentElem) {
         closeSquareExpanded();
       }
-
-      setCanvasSize();
+  
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       render.canvas.width = canvas.width;
       render.canvas.height = canvas.height;
-
+  
       World.clear(world);
       Engine.clear(engine);
       createWalls();
