@@ -139,7 +139,6 @@
       order: 1; /* הכותרת ראשונה */
       flex-shrink: 0; /* מונע שהכותרת תצטמק */
       transform: translateY(5%);
-
     }
 
     .header-flex-container h1 .black {
@@ -262,6 +261,15 @@
     .close-expanded-btn:hover {
       color: #E4E2D9;
     }
+
+    @media (max-width: 700px) {
+      .header-flex-container h1 {
+        font-size: 12vw;
+      }
+      body {
+        overflow: auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -377,8 +385,13 @@
 });
 
   
+    function isMobile() {
+      return window.innerWidth < 700;
+    }
+  
     function createWalls() {
-      const ground = Bodies.rectangle(canvas.width / 2, canvas.height + 50, canvas.width, 100, { isStatic: true, render: { visible: false } });
+      const groundY = isMobile() ? canvas.height + 550 : canvas.height + 50;
+      const ground = Bodies.rectangle(canvas.width / 2, groundY, canvas.width, 100, { isStatic: true, render: { visible: false } });
       const leftWall = Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       const rightWall = Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, { isStatic: true, render: { visible: false } });
       World.add(world, [ground, leftWall, rightWall]);
@@ -443,7 +456,8 @@ const logoSpan = logoElem.querySelector('span');
     let dropInterval = null;
   
     function createResponsiveSquare(x, y, sizePercent, color, info) {
-      const size = (canvas.width * sizePercent) / 100;
+      let size = (canvas.width * sizePercent) / 100;
+      if (isMobile()) size *= 3;
       const imageOriginalSize = 1207;
       let body;
   
@@ -517,12 +531,16 @@ body = Bodies.rectangle(x, y, width, height, {
 
     startDropAnimation();
   
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: { stiffness: 0.2, render: { visible: false } }
-    });
-    World.add(world, mouseConstraint);
+    // יצירת קונסטריינט עכבר (גרירה) רק אם לא מובייל
+    let mouseConstraint = null;
+    if (!isMobile()) {
+      const mouse = Mouse.create(render.canvas);
+      mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: { stiffness: 0.2, render: { visible: false } }
+      });
+      World.add(world, mouseConstraint);
+    }
   
     let expandedSquare = null;
     let expandedContentElem = null;
