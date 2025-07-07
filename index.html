@@ -589,6 +589,15 @@ body = Bodies.rectangle(x, y, width, height, {
 `;
       
 
+// שינוי צבע רקע של expanded-content אם מדובר ב־portfolio
+if (body.customInfo.url === 'pages/portfolio') {
+  setTimeout(() => {
+    expandedContentElem.style.backgroundColor = '#c5c1bb';
+  }, 4000);
+}
+
+
+
       document.addEventListener('mousemove', (e) => {
         const xRatio = 1 - (e.clientX / window.innerWidth);
         const yRatio = 1 - (e.clientY / window.innerHeight);
