@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>שכונה</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+   @font-face {
+      font-family: 'NarkissBlock';
+      src: url('fonts/NarkissBlock-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+ 
+
+    @font-face {
+      font-family: 'NarkissBlock-heavy';
+      src: url('fonts/NarkissBlock-Heavy.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+ 
+ 
+    @font-face {
+      font-family: 'PortfolioFont';
+      src: url('fonts/portfolioVF.ttf') format('truetype-variations');
+      /* font-weight: 500; */
+      font-style: italic;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: 'NarkissBlock', sans-serif;
+      color: #000;
+    }
+
+    h1 {
+      font-family: 'PortfolioFont', serif;
+      font-size: 60px;
+      font-weight: 800;
+      text-align: right;
+      margin-bottom: -10px;
+      margin-top: -10px;
+
+      color:#000000;
+    }
+
+    h2 {
+      font-family: 'PortfolioFont', serif;
+      font-size: 55px;
+      font-weight: 500;
+      text-align: right;
+      margin-bottom: -10px;
+      margin-top: -10px;
+
+      color:#de7b7b;
+    }
+
+
+    .header-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: center;
+      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-family: 'NarkissBlock', sans-serif;
+
+      font-size: 20px;
+      line-height: 23px;
+      text-align: right;
+
+      /* margin-bottom: 10px; */
+    }
+
+
+    .text-flex-container {
+      display: flex;
+      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      align-items: top;
+      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      margin-bottom: 15px;
+    }
+
+    .image {
+  width: 100%;
+}
+
+.image img {
+  width: 70%;
+  height: auto;       /* שומר על פרופורציות מקוריות */
+  display: block;     /* מסיר רווחים מתחת לתמונה */
+  margin: 0 auto;     /* מרכז את התמונה */
+  /* background: #e4e2d9; */
+  /* box-sizing: border-box; */
+
+strong {
+      font-family: 'NarkissBlock-heavy', sans-serif;
+      /* color:#de7b7b; */
+       }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 4px;
+      column-gap: 4px;
+    }
+
+    .grid-item {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .grid-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* הפופאפ */
+    #popup {
+      position: fixed;
+      inset: 0;
+      background-color: #e4e2d9d2;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-overlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .popup-overlay img {
+      height: 80vh;
+      width: 80vh;
+      object-fit: contain;
+      cursor: default;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #popup.show img {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-flex-container">
+  <h1>אפליקציית שכונה</h1>
+  <h2>מיתוג וחוויית משתמש</h2>
+</div>
+
+<div class="text-flex-container">
+
+  <!-- <div class="image"  style="transform:scale(0.9); transform-origin: center right; width: 300px;">
+    <img src="images/shkhuna_vid4.gif" alt="ארמון 1" >
+    </div> -->
+
+  <p>אפליקציית <strong>שכונה</strong> היא אפליקציה שמחברת בין שכנים, בבניין או בשכונה, ומאפשרת להם לשתף אחד את השני בכלי מטבח ובישול.  
+  <br>
+השפה הגרפית פשוטה ומזמינה עם איורים ביד קלילה. 
+</p>
+
+</div>
+
+
+
+
+<div class="image">
+  <img src="images/shkhuna_vid2.gif" alt="ארמון 1">
+</div>
+
+
+  <!-- פופאפ -->
+  <div id="popup">
+    <div class="popup-overlay" onclick="closePopup(event)">
+      <img id="popup-img" src="" alt="תמונה גדולה" />
+    </div>
+  </div>
+
+  <script>
+    const popup = document.getElementById('popup');
+    const popupOverlay = popup.querySelector('.popup-overlay');
+    const popupImg = document.getElementById('popup-img');
+    const gridItems = document.querySelectorAll('.grid-item');
+
+    const imageList = Array.from(gridItems).map(item => item.querySelector('img').src);
+    let currentIndex = 0;
+
+    gridItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        const src = item.querySelector('img').src;
+        popupImg.src = src;
+        popup.style.display = 'flex';
+
+        currentIndex = index; // שמירת אינדקס
+
+        requestAnimationFrame(() => {
+          popup.classList.add('show');
+        });
+
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closePopup(e) {
+      if (e.target === popupOverlay) {
+        popup.classList.remove('show');
+        setTimeout(() => {
+          popup.style.display = 'none';
+          popupImg.src = '';
+          document.body.style.overflow = '';
+        }, 300); // זמן תואם ל-transition
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (popup.style.display === 'flex') {
+        if (e.key === 'Escape') {
+          closePopup({ target: popupOverlay });
+        } else if (e.key === 'ArrowLeft') {
+          currentIndex = (currentIndex + 1) % imageList.length;
+          popupImg.src = imageList[currentIndex];
+        } else if (e.key === 'ArrowRight') {
+          currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+          popupImg.src = imageList[currentIndex];
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
