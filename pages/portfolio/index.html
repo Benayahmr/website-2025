@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>פונט פורטפוליו</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @font-face {
+      font-family: 'NarkissBlock';
+      src: url('fonts/NarkissBlock-Regular.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'NarkissBlock-heavy';
+      src: url('fonts/NarkissBlock-Heavy.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'armon';
+      src: url('fonts/armon.ttf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'PortfolioFont';
+      src: url('fonts/portfolioVF.ttf') format('truetype-variations');
+      font-style: italic;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: 'NarkissBlock', sans-serif;
+      color: #000;
+      
+    }
+
+    h1, h2 {
+      font-family: 'PortfolioFont', serif;
+      text-align: right;
+      margin: -10px 0;
+    }
+
+    h1 {
+      font-size: 60px;
+      font-weight: 800;
+      color: #000;
+    }
+
+    h2 {
+      font-size: 55px;
+      font-weight: 500;
+      color: #de7b7b;
+    }
+
+    .header-flex-container,
+    .text-flex-container,
+    .font-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 17px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-family: 'NarkissBlock', sans-serif;
+      font-size: 20px;
+      line-height: 23px;
+      text-align: right;
+    }
+
+
+
+
+
+
+#weight-buttons {
+  display: flex;
+  flex-wrap: wrap; /* מאפשר ירידה לשורה שניה */
+  gap: 15px;
+  row-gap: 10px;
+  justify-content: right;
+  direction: rtl;
+  margin-top: 10px;
+}
+
+#weight-buttons span {
+  font-family: 'PortfolioFont';
+  font-size: 110px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  color: #333;
+
+  /* גמישות גודל */
+  flex-shrink: 1;  /* מאפשר לכווץ */
+  flex-grow: 0;
+  flex-basis: auto;
+  min-width: 100px; /* מינימום רוחב */
+  word-break: keep-all; /* לא לשבור מילים באמצע */
+}
+
+#weight-buttons span:hover {
+  color: #c54343;
+}
+
+.size-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  white-space: nowrap;
+}
+
+
+.font-size-button {
+  font-size: 180px;
+  font-weight: 300;
+  text-align: center;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.font-size-button:hover {
+  color: #c54343;
+}
+
+
+
+
+    .image {
+      width: 100%;
+    }
+
+    .image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    strong {
+      font-family: 'NarkissBlock-heavy', sans-serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .grid-item {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .grid-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    #popup {
+      position: fixed;
+      inset: 0;
+      background-color: #e4e2d9d2;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-overlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .popup-overlay img {
+      height: 80vh;
+      width: 80vh;
+      object-fit: contain;
+      cursor: default;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #popup.show img {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-flex-container">
+    <h1>פורטפוליו</h1>
+    <h2>פונט ראווה ואתר</h2>
+  </div>
+
+  <div class="header-flex-container">
+    <p>
+      גופן דיספליי כבד, דומיננטי ומעט פרוע. עוצב במיוחד עבור אתר הפורטפוליו.
+      <br><br>
+      הגופן מבוסס על גיאומטריה פשוטה אך עם טוויסט פדלפוני כיפי. עובד היטב בקרנינג נמוך. 
+      <br>
+      <strong>פורטפוליו</strong> הוא בעל אופי מובהק, חללים נגטיביים מעניינים ומביא אנרגיה שמחה וצבעונית.
+    </p>
+  </div>
+
+<div style="background-color: #c5c1bb; padding: 30px;">
+
+  <hr style="height:4px; border:0; background-color:#c54343">
+  <p style="width: 100%; font-family: 'PortfolioFont'; font-weight: 500; font-size: 90px; line-height: 120%; margin: 30px 0; color: #333;">
+    ״היי, מה נשמע! <br> האם תקבלו אותי לעבודה?״
+  </p>
+
+  <hr style="height:4px; border:0; background-color:#c54343">
+
+  <div style="display: flex;"> 
+    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 160px; line-height: 120%; margin: 30px 0; color: #c54343;">
+      אֵין חָכָם כְּבַעַל הַנִּסָיוֹן.
+    </p>
+
+    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 400px; line-height: 120%; margin: 30px 0; color: #333; text-align: left">
+      ₪
+    </p>
+  
+  </div>
+
+  <hr style="height:4px; border:0; background-color:#c54343">
+
+  <p style="width: 100%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 170px; line-height: 120%; margin: 30px 0; color: #333; text-align: center;">
+    &lt;&lt; ↓ ← ⟵ &gt;&gt;
+  </p>
+
+  <hr style="height:4px; border:0; background-color:#c54343; margin-top: 30px;">
+
+  <textarea
+    id="auto-resize-textarea"
+    style="width: 100%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 110px; background: transparent; border: none; outline: none; color: #333; direction: rtl; text-align: right; resize: none; overflow: hidden; line-height: 130%; margin-top: 30px;"
+></textarea>
+
+
+<div id="weight-buttons">
+<span onclick="setFontWeight(500, this)" style="font-weight: 500;" class="weight-button">קל</span>
+<span onclick="setFontWeight(600, this)" style="font-weight: 600;" class="weight-button">בינוני</span>
+<span onclick="setFontWeight(650, this)" style="font-weight: 650;" class="weight-button">מודגש</span>
+<span onclick="setFontWeight(700, this)" style="font-weight: 700;" class="weight-button">כבד</span>
+
+    <div class="size-buttons-wrapper">
+    <span onclick="changeFontSize(1)" class="font-size-button">+</span>
+    <span onclick="changeFontSize(-1)" class="font-size-button">-</span>
+    </div>
+</div>
+
+  <hr style="height:4px; border:0; background-color:#c54343; margin-top: 30px;">
+
+</div>
+
+  <div id="popup">
+    <div class="popup-overlay" onclick="closePopup(event)">
+      <img id="popup-img" src="" alt="תמונה גדולה" />
+    </div>
+  </div>
+
+<script>
+  const textarea = document.getElementById('auto-resize-textarea');
+  const weightButtons = document.querySelectorAll('.weight-button');
+  const sizeButtons = document.querySelectorAll('.font-size-button');
+  let currentFontSize = 110; // גודל התחלתי
+
+  function setFontWeight(weight, el) {
+    textarea.style.fontWeight = weight;
+    weightButtons.forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function changeFontSize(direction) {
+    currentFontSize += direction * 10;
+    currentFontSize = Math.max(10, Math.min(400, currentFontSize));
+    
+    // שינוי גודל הטקסט
+    textarea.style.fontSize = currentFontSize + 'px';
+
+    // שינוי גודל כפתורי המשקל
+    weightButtons.forEach(btn => {
+      btn.style.fontSize = currentFontSize + 'px';
+    });
+
+    // שינוי גודל כפתורי + –
+    sizeButtons.forEach(btn => {
+      btn.style.fontSize = currentFontSize + 'px';
+    });
+
+    autoResize();
+  }
+
+  function autoResize() {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  textarea.addEventListener('input', autoResize);
+
+  window.addEventListener('DOMContentLoaded', () => {
+    autoResize();
+    weightButtons.forEach(btn => {
+      if (parseInt(btn.style.fontWeight) === 700) {
+        btn.classList.add('active');
+      }
+      btn.style.fontSize = currentFontSize + 'px';
+    });
+    sizeButtons.forEach(btn => {
+      btn.style.fontSize = currentFontSize + 'px';
+    });
+  });
+
+  // --- פופאפ ---
+  const popup = document.getElementById('popup');
+  const popupOverlay = popup.querySelector('.popup-overlay');
+  const popupImg = document.getElementById('popup-img');
+  const gridItems = document.querySelectorAll('.grid-item');
+  const imageList = Array.from(gridItems).map(item => item.querySelector('img').src);
+  let currentIndex = 0;
+
+  gridItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      popupImg.src = item.querySelector('img').src;
+      popup.style.display = 'flex';
+      currentIndex = index;
+      requestAnimationFrame(() => popup.classList.add('show'));
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closePopup(e) {
+    if (e.target === popupOverlay) {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.style.display = 'none';
+        popupImg.src = '';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (popup.style.display === 'flex') {
+      if (e.key === 'Escape') {
+        closePopup({ target: popupOverlay });
+      } else if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex + 1) % imageList.length;
+        popupImg.src = imageList[currentIndex];
+      } else if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+        popupImg.src = imageList[currentIndex];
+      }
+    }
+  });
+
+  
+  const targetText = '״אבגד? הוזח - טיכללֿמנס! עפצקקֿ: רשת.״ (םןץףך)';
+  let typingStarted = false;
+
+  function startTypingEffect() {
+    let i = 0;
+    textarea.value = '';
+    const interval = setInterval(() => {
+      if (i <= targetText.length) {
+        textarea.value = targetText.slice(0, i);
+        autoResize();
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 20); // מהירות הקלדה
+  }
+
+  function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom >= 0
+    );
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!typingStarted && isInViewport(textarea)) {
+      typingStarted = true;
+      startTypingEffect();
+    }
+  });
+
+
+</script>
+
+
+</body>
+</html>
