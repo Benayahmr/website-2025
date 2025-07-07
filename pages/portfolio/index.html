@@ -166,39 +166,6 @@
       pointer-events: none;
     }
 
-    #popup {
-      position: fixed;
-      inset: 0;
-      background-color: #e4e2d9d2;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .popup-overlay {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .popup-overlay img {
-      height: 80vh;
-      width: 80vh;
-      object-fit: contain;
-      cursor: default;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    #popup.show img {
-      opacity: 1;
-      transform: scale(1);
-    }
   </style>
 </head>
 <body>
@@ -248,7 +215,7 @@
 
   <textarea
     id="auto-resize-textarea"
-    style="width: 100%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 110px; background: transparent; border: none; outline: none; color: #333; direction: rtl; text-align: right; resize: none; overflow: hidden; line-height: 130%; margin-top: 30px;">
+    style="width: 100%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 110px; background: transparent; border: none; outline: none; color: #333; direction: rtl; text-align: right; resize: none; overflow: hidden; line-height: 130%; margin-top: 30px; caret-color:#c54343; caret-shape: block;">
   </textarea>
 
 
@@ -264,15 +231,9 @@
     </div>
 </div>
 
-  <hr style="height:4px; border:0; background-color:#c54343; margin-top: 30px;">
+  <hr id="trigger-hr" style="height:4px; border:0; background-color:#c54343; margin-top: 30px;">
 
 </div>
-
-  <div id="popup">
-    <div class="popup-overlay" onclick="closePopup(event)">
-      <img id="popup-img" src="" alt="תמונה גדולה" />
-    </div>
-  </div>
 
 <script>
   const textarea = document.getElementById('auto-resize-textarea');
@@ -329,49 +290,6 @@
     });
   });
 
-  // --- פופאפ ---
-  const popup = document.getElementById('popup');
-  const popupOverlay = popup.querySelector('.popup-overlay');
-  const popupImg = document.getElementById('popup-img');
-  const gridItems = document.querySelectorAll('.grid-item');
-  const imageList = Array.from(gridItems).map(item => item.querySelector('img').src);
-  let currentIndex = 0;
-
-  gridItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      popupImg.src = item.querySelector('img').src;
-      popup.style.display = 'flex';
-      currentIndex = index;
-      requestAnimationFrame(() => popup.classList.add('show'));
-      document.body.style.overflow = 'hidden';
-    });
-  });
-
-  function closePopup(e) {
-    if (e.target === popupOverlay) {
-      popup.classList.remove('show');
-      setTimeout(() => {
-        popup.style.display = 'none';
-        popupImg.src = '';
-        document.body.style.overflow = '';
-      }, 300);
-    }
-  }
-
-  document.addEventListener('keydown', e => {
-    if (popup.style.display === 'flex') {
-      if (e.key === 'Escape') {
-        closePopup({ target: popupOverlay });
-      } else if (e.key === 'ArrowLeft') {
-        currentIndex = (currentIndex + 1) % imageList.length;
-        popupImg.src = imageList[currentIndex];
-      } else if (e.key === 'ArrowRight') {
-        currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
-        popupImg.src = imageList[currentIndex];
-      }
-    }
-  });
-
   
   const targetText = '״אבגד? הוזח - טיכללֿמנס! עפצקקֿ: רשת.״ (םןץףך)';
   let typingStarted = false;
@@ -408,11 +326,21 @@
     }
   });
 
-document.addEventListener('scroll', () => {
-    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-      document.getElementById("auto-resize-textarea").focus();
-    }
-});
+
+  
+    const hrElement = document.getElementById('trigger-hr');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          textarea.focus();
+          // observer.unobserve(entry.target); // עוצר את המעקב אחרי הפעם הראשונה
+        }
+      });
+    }, {
+    });
+
+    observer.observe(hrElement);
 
 </script>
 
