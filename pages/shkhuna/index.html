@@ -76,6 +76,24 @@
       /* margin-bottom: 10px; */
     }
 
+.feather-video {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  /* Feather effect on all 4 edges */
+  mask-image: 
+    linear-gradient(to top,    transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to left,   transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-composite: intersect;
+  
+  -webkit-mask-image: 
+    linear-gradient(to top,    transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to left,   transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+}
+
+
 
     .text-flex-container {
       display: flex;
@@ -187,7 +205,7 @@ strong {
 
 
 
-<video autoplay muted style="  width: 70%;  height: auto;   display: block;    margin: 0 auto; ">
+<video autoplay muted class="feather-video" style="  width: 70%;  height: auto;   display: block;    margin: 0 auto; ">
   <source src="images/shkhuna_vid 2.mp4">
 </video>
 
