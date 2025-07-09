@@ -61,44 +61,46 @@
       justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
       align-items: center;
       gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
-      margin-bottom: 15px;
+      margin-bottom: 30px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      row-gap: 4px;
-      column-gap: 4px;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 20px;
+      column-gap: 20px;
     }
 
     .grid-item {
-      width: 100%;
+      /* width: 100%; */
       aspect-ratio: 1 / 1;
       overflow: hidden;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      /* align-items: center; */
+      /* justify-content: center; */
       cursor: pointer;
     }
 
     .grid-item img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      /* max-width: 100%; */
+      /* max-height: 100%; */
+      object-fit: cover;
       display: block;
       user-select: none;
       pointer-events: none;
+
     }
 
     /* הפופאפ */
     #popup {
       position: fixed;
       inset: 0;
-      background-color: #e4e2d9d2;
+      background-color: #e4e2d9e7;
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      
     }
 
     .popup-overlay {
@@ -111,13 +113,15 @@
     }
 
     .popup-overlay img {
-      height: 80vh;
-      width: 80vh;
+      height: 95vh;
+      width: auto;
       object-fit: contain;
       cursor: default;
       opacity: 0;
       transform: scale(0.8);
       transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-20px);
+
     }
 
     #popup.show img {
