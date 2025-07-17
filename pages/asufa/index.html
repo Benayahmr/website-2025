@@ -29,11 +29,15 @@
       font-style: italic;
     }
 
-    body {
-      margin: 0;
-      padding: 40px;
+      body {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+
       font-family: 'NarkissBlock', sans-serif;
       color: #000;
+      
+      overflow-x: hidden;
     }
 
     h1 {
@@ -55,17 +59,77 @@
       margin-bottom: -10px;
       margin-top: -10px;
 
-      color:#de7b7b;
+      color:#c54343;
     }
 
 
-    .header-flex-container {
+         .popup-body{
+      align-content: right;
+      top:0;
+      right: 0;
+
+      background-color: #E4E2D9;
+      padding-top: 0px;
+
+      padding-bottom: 60px;
+      padding-right: 60px;
+      padding-left: 60px;
+
+
+
+      border-radius: 10px;
+    }
+
+    .text-container {
       display: flex;
-      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
+      justify-content: flex-start;
       align-items: center;
-      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
+      gap: 17px;
       margin-bottom: 15px;
+
     }
+
+
+
+
+
+    .close-btn{
+        color:#707070;
+
+      font-size: 27px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+  .close-btn:hover {
+  color: #c54343;
+}
+
+ .header-flex-container {
+  width: 110vw;
+  position: sticky;
+  top: 0;
+  transform: translateX(36px);
+  backdrop-filter: blur(5px);
+  background-color: #e4e2d9ca;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  transition: none; /* שליטה מלאה דרך JS */
+  will-change: transform, padding, font-size;
+  padding-top: 13px;
+   z-index: 2000000;
+}
+
+.header-flex-container h1,
+.header-flex-container h2 {
+  margin: 0;
+   
+}
+
+
+
+
 
     p {
       font-family: 'NarkissBlock', sans-serif;
@@ -78,16 +142,10 @@
     }
 
 
-    .text-flex-container {
-      display: flex;
-      justify-content: flex-start; /* אלמנטים מימין לשמאל בגלל direction: rtl */
-      align-items: top;
-      gap: 17px; /* רווח אופקי של 1vw בין הכותרת לפסקה */
-      margin-bottom: 15px;
-    }
 
     .image {
   width: 100%;
+
 }
 
 .image img {
@@ -168,13 +226,18 @@ strong {
 </head>
 <body>
 
-<div class="header-flex-container">
+  <div class="close-btn" style="width: 100%; height: 110px;"> </div>
+  <div class="popup-body">
+  
+  <div class="header-flex-container">
+    <div class="close-btn">❮</div>
+
   <h1>הגדת אסופה</h1>
   <h2> כפולה מאויירת </h2>
 </div>
 
-<div class="header-flex-container">
 
+<div class="text-container">
   <div class="image"  style="transform:scale(1); transform-origin: center right; width: 400px;">
     <img src="images/asufa1.png" alt="אסופה 1" >
     </div>
@@ -205,7 +268,7 @@ strong {
       <img id="popup-img" src="" alt="תמונה גדולה" />
     </div>
   </div>
-
+</div>
   <script>
   const popup = document.getElementById('popup');
 const popupOverlay = popup.querySelector('.popup-overlay');
@@ -255,6 +318,44 @@ images.forEach((img, index) => {
         }
       }
     });
+
+    document.querySelectorAll('.close-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    window.parent.postMessage({ action: 'closeIframe' }, '*');
+  });
+});
+
+
+const header = document.querySelector('.header-flex-container');
+const h1 = header.querySelector('h1');
+const h2 = header.querySelector('h2');
+
+const shrinkStart = 0;    // מתי להתחיל לכווץ (אפשר להשאיר 0)
+const shrinkEnd = 200;    // מתי להפסיק (תשנה לפי הטעם)
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  // חישוב בין 0 ל-1
+  const progress = Math.min(Math.max((scrollY - shrinkStart) / (shrinkEnd - shrinkStart), 0), 1);
+
+  // מעבר הדרגתי בין גדלים
+  const paddingTop = 13 - progress * (13 - 10);     // 13px → 10px
+  const paddingBottom = 10 - progress * (10 - 7);  // 10px → 7px
+  const fontSizeH1 = 60 - progress * (60 - 50);    // 60px → 50px
+  const fontSizeH2 = 55 - progress * (55 - 45);    // 55px → 35px
+  const gap = 17 - progress * (17 - 10);           // 17px → 10px
+
+  // החלת הסגנונות בפועל
+  header.style.paddingTop = `${paddingTop}px`;
+  header.style.paddingBottom = `${paddingBottom}px`;
+  header.style.gap = `${gap}px`;
+  h1.style.fontSize = `${fontSizeH1}px`;
+  h2.style.fontSize = `${fontSizeH2}px`;
+});
+
+
+
   </script>
 
 </body>

@@ -27,17 +27,37 @@
     }
 
     body {
-      margin: 0;
-      padding: 40px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+
       font-family: 'NarkissBlock', sans-serif;
       color: #000;
       
     }
 
+     .popup-body{
+      align-content: right;
+      top:0;
+      right: 0;
+
+      background-color: #E4E2D9;
+      padding-top: 0px;
+
+      padding-bottom: 60px;
+      padding-right: 60px;
+      padding-left: 60px;
+
+
+
+      border-radius: 10px;
+    }
+    
+
     h1, h2 {
       font-family: 'PortfolioFont', serif;
       text-align: right;
-      margin: -10px 0;
+      /* margin: -10px 0; */
     }
 
     h1 {
@@ -49,18 +69,58 @@
     h2 {
       font-size: 55px;
       font-weight: 500;
-      color: #de7b7b;
+      color: #c54343;
     }
 
-    .header-flex-container,
-    .text-flex-container,
-    .font-container {
+
+     
+
+    .text-container {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       gap: 17px;
       margin-bottom: 15px;
+
     }
+
+
+
+
+
+    .close-btn{
+        color:#707070;
+
+      font-size: 27px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+  .close-btn:hover {
+  color:  #de7b7b;
+}
+
+ .header-flex-container {
+  position: sticky;
+  top: 0;
+  transform: translateX(36px);
+  backdrop-filter: blur(5px);
+  background-color: #e4e2d9ca;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  transition: none; /* שליטה מלאה דרך JS */
+  will-change: transform, padding, font-size;
+  padding-top: 13px;
+}
+
+.header-flex-container h1,
+.header-flex-container h2 {
+  margin: 0;
+}
+
+
+
 
     p {
       font-family: 'NarkissBlock', sans-serif;
@@ -100,8 +160,13 @@
 }
 
 #weight-buttons span:hover {
-  color: #c54343;
+  color: #de7b7b;
 }
+
+#weight-buttons span.active {
+  color: #c54343; /* אדום */
+}
+
 
 .size-buttons-wrapper {
   display: flex;
@@ -166,16 +231,26 @@
       pointer-events: none;
     }
 
+
+   
+    
   </style>
 </head>
 <body>
 
+  <div class="close-btn" style="width: 100%; height: 110px;"> </div>
+  <div class="popup-body">
+  
   <div class="header-flex-container">
+    <div class="close-btn">❮</div>
+
     <h1>פורטפוליו</h1>
     <h2>פונט ראווה ואתר</h2>
   </div>
 
-  <div class="header-flex-container">
+
+
+  <div class="text-container">
     <p>
       גופן דיספליי כבד, דומיננטי ומעט פרוע. עוצב במיוחד עבור אתר הפורטפוליו.
       <br><br>
@@ -185,21 +260,21 @@
     </p>
   </div>
 
-<div style="background-color: #c5c1bb; padding: 20px;">
+<div style="background-color: #E4E2D9;">
 
   <hr style="height:4px; border:0; background-color:#c54343">
-  <p style="width: 100%; font-family: 'PortfolioFont'; font-weight: 500; font-size: 90px; line-height: 120%; margin: 30px 0; color: #333;">
+  <p style="width: 100%; font-family: 'PortfolioFont'; font-weight: 500; font-size: 90px; line-height: 120%; margin: 40px 0 0 0; color: #333;">
     ״היי, מה נשמע! <br> האם תקבלו אותי לעבודה?״
   </p>
 
   <hr style="height:4px; border:0; background-color:#c54343">
 
   <div style="display: flex;"> 
-    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 12vw; line-height: 120%; margin: 30px 0; color: #c54343;">
+    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 13vw; line-height: 120%; margin: 40px 0 0 0; color: #c54343;">
       אֵין חָכָם כְּבַעַל הַנִּסָיוֹן.
     </p>
 
-    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 40vw; line-height: 120%; margin: 30px 0; color: #333; text-align: center; ">  <!-- transform: translateY(5%); -->
+    <p style="width: 50%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 54vw; line-height: 96%; margin: 0 0; color: #333; text-align: center; transform:translateY(3vw)">  <!-- transform: translateY(5%); -->
       ₪
     </p>
   
@@ -215,12 +290,12 @@
 
   <textarea
     id="auto-resize-textarea"
-    style="width: 100%; font-family: 'PortfolioFont'; font-weight: 800; font-size: 110px; background: transparent; border: none; outline: none; color: #333; direction: rtl; text-align: right; resize: none; overflow: hidden; line-height: 130%; margin-top: 30px; caret-color:#333; caret-shape: block;">
+    style="width: 100%; font-family: 'PortfolioFont'; font-weight: 500; font-size: 110px; background: transparent; border: none; outline: none; color: #333; direction: rtl; text-align: right; resize: none; overflow: hidden; line-height: 130%; margin-top: 30px; caret-color:#333; caret-shape: block;">
   </textarea>
 
 
 <div id="weight-buttons">
-<span onclick="setFontWeight(500, this)" style="font-weight: 500;" class="weight-button">קל</span>
+<span onclick="setFontWeight(500, this)" style="font-weight: 500;" class="weight-button active">קל</span>
 <span onclick="setFontWeight(600, this)" style="font-weight: 600;" class="weight-button">בינוני</span>
 <span onclick="setFontWeight(650, this)" style="font-weight: 650;" class="weight-button">מודגש</span>
 <span onclick="setFontWeight(700, this)" style="font-weight: 700;" class="weight-button">כבד</span>
@@ -235,6 +310,9 @@
 
 </div>
 
+</div>
+
+
 <script>
   const textarea = document.getElementById('auto-resize-textarea');
   const weightButtons = document.querySelectorAll('.weight-button');
@@ -242,13 +320,19 @@
   let currentFontSize = 110; // גודל התחלתי
 
 
+document.querySelectorAll('.close-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    window.parent.postMessage({ action: 'closeIframe' }, '*');
+  });
+});
 
-
-  function setFontWeight(weight, el) {
-    textarea.style.fontWeight = weight;
-    weightButtons.forEach(btn => btn.classList.remove('active'));
-    el.classList.add('active');
-  }
+function setFontWeight(weight, el) {
+  textarea.style.fontWeight = weight;
+  // מסיר את ה-active מכל הכפתורים
+  weightButtons.forEach(btn => btn.classList.remove('active'));
+  // מוסיף active לכפתור שנלחץ
+  el.classList.add('active');
+}
 
   function changeFontSize(direction) {
     currentFontSize += direction * 10;
@@ -280,7 +364,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     autoResize();
     weightButtons.forEach(btn => {
-      if (parseInt(btn.style.fontWeight) === 700) {
+      if (parseInt(btn.style.fontWeight) === 500) {
         btn.classList.add('active');
       }
       btn.style.fontSize = currentFontSize + 'px';
@@ -341,6 +425,38 @@
     });
 
     observer.observe(hrElement);
+
+
+
+const header = document.querySelector('.header-flex-container');
+const h1 = header.querySelector('h1');
+const h2 = header.querySelector('h2');
+
+const shrinkStart = 0;    // מתי להתחיל לכווץ (אפשר להשאיר 0)
+const shrinkEnd = 200;    // מתי להפסיק (תשנה לפי הטעם)
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  // חישוב בין 0 ל-1
+  const progress = Math.min(Math.max((scrollY - shrinkStart) / (shrinkEnd - shrinkStart), 0), 1);
+
+  // מעבר הדרגתי בין גדלים
+  const paddingTop = 13 - progress * (13 - 10);     // 13px → 10px
+  const paddingBottom = 10 - progress * (10 - 7);  // 10px → 7px
+  const fontSizeH1 = 60 - progress * (60 - 50);    // 60px → 50px
+  const fontSizeH2 = 55 - progress * (55 - 45);    // 55px → 35px
+  const gap = 17 - progress * (17 - 10);           // 17px → 10px
+
+  // החלת הסגנונות בפועל
+  header.style.paddingTop = `${paddingTop}px`;
+  header.style.paddingBottom = `${paddingBottom}px`;
+  header.style.gap = `${gap}px`;
+  h1.style.fontSize = `${fontSizeH1}px`;
+  h2.style.fontSize = `${fontSizeH2}px`;
+});
+
+
 
 </script>
 

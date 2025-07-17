@@ -35,6 +35,13 @@
       font-style: normal;
     }
 
+     @font-face {
+      font-family: 'NarkissBlock-heavy';
+      src: url('fonts/NarkissBlock-Heavy.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
 
 
     @font-face {
@@ -111,7 +118,7 @@
       position: absolute;
       top: 30px;
       width: 100%;
-      padding: 0 30px;
+      padding: 0 50px;
       z-index: 10;
       font-family: 'PortfolioFont', 'Assistant', sans-serif;
     }
@@ -151,11 +158,12 @@
     .header-flex-container h1 .pink {
       color: #de7b7b;
       font-weight: bold;
+      cursor: pointer;
+
       
     }
     .header-flex-container h1 .pink:hover {
   color: #fa4e4d;
-  /* cursor: pointer; */
   transition: color 0.3s ease;
 }
 
@@ -184,7 +192,9 @@
 .header-flex-container p a:hover {
   /* text-decoration: underline dotted; */
   /* text-decoration-color: #de7b7b;  */
-  text-decoration-thickness: 3px;
+  /* text-decoration-thickness: 3px; */
+
+
   color: #fa4e4d;
 
 }
@@ -194,7 +204,7 @@
       display: block;
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       z-index: 0;
     }
 
@@ -202,37 +212,39 @@
     .expanded-content {
 
  /* top: 140px; */
-  height:70vh;
-  width: 90vw;
+  height:100vh;
+  /* width: 100vw; */
   /* left: 0; */
   transform: none;
-  margin-top: 110px;
+  /* margin-top: 110px; */
 
 
       position: absolute;
       color: #E4E2D9;
-      background: #E4E2D9;
+      /* background: #E4E2D9; */
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       overflow-y: auto;
-      padding-left: 20px;
+
+      /* padding-left: 20px;
       padding-right: 20px;
-      padding-bottom: 30px;
+      padding-bottom: 30px; */
 
 
-      z-index: 9999;
+      z-index: 99999;
       font-family: 'Assistant', sans-serif;
       direction: rtl;
       user-select: text;
       display: flex;
       flex-direction: column;
-      align-items: אםפ;
+      align-items: top;
 
-      border-radius: 5px; /* בלי רדיוסים */
+      border-radius: 8px; 
       transition: all 0.5s ease;
+
     }
 
     .expanded-content h2 {
-      margin: 0 0 10px 0;
+      /* margin: 0 0 10px 0; */
       color: #E4E2D9;
     }
 
@@ -258,8 +270,8 @@
     .close-expanded-btn {
       /* font-family: 'NarkissBlock', sans-serif; */
       position: absolute;
-      top: 10px;
-      right: 18px; /* מימין */
+      top: 30px;
+      right: 21px; 
       background: none;
       border: none;
       font-size: 35px;
@@ -272,6 +284,13 @@
     .close-expanded-btn:hover {
       color: #de7b7b;
     }
+
+strong {
+      font-family: 'NarkissBlock-heavy', sans-serif;
+      font-weight:heavy;
+       }
+
+
   </style>
 </head>
 <body>
@@ -299,6 +318,7 @@
       
     </div>
   </div>
+</div>
 
   <canvas id="canvas"></canvas>
 
@@ -357,7 +377,16 @@
 
 
 
+  window.addEventListener('message', (event) => {
+    if (event.data.action === 'closeIframe') {
+      const iframe = document.getElementById('popupFrame');
+      if (iframe) {
 
+closeSquareExpanded()
+
+      }
+    }
+  });
 
 
     const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint, Query } = Matter;
@@ -412,7 +441,7 @@
   
     let squareData = [
       { sizePercent: 20, color: '#333', title: 'lettering', text: 'לטרינג', image: 'images/lettering_pic.png', url: 'pages/lettering/index.html',aspectRatio: 1 },
-      { sizePercent: 22, color: '#333', title: 'shkhuna', text: 'שכונה', image: 'images/skhuna_pic.jpg', url: 'pages/shkhuna' ,aspectRatio: 1},
+      { sizePercent: 22, color: '#333', title: 'shkhuna', text: 'שכונה', image: 'images/skhuna_pic.jpg', url: 'pages/shkhuna/index.html' ,aspectRatio: 1},
       { sizePercent: 20, color: '#333', title: 'portfolio', text: 'פורטפוליו', image: 'images/portfolio_pic.jpg', url: 'pages/portfolio/index.html' ,aspectRatio: 1},
       { sizePercent: 15, color: '#333', title: 'calcala', text: 'ערוץ הכלכלה', image: 'images/calcala_pic.jpg', url: 'pages/calcala/index.html' ,aspectRatio: 1},
       { sizePercent: 15, color: '#333', title: 'asufa', text: 'כפולה להגדת ׳אסופה׳', image: 'images/asufa_pic.webp', url: 'pages/asufa/index.html' ,aspectRatio: 1},
@@ -584,18 +613,19 @@ body = Bodies.rectangle(x, y, width, height, {
   
       expandedContentElem = document.createElement('div');
       expandedContentElem.className = 'expanded-content';
-      expandedContentElem.style.backgroundColor = '#E4E2D9';
+      // expandedContentElem.style.backgroundColor = '#E4E2D9';
       expandedContentElem.style.width = width + 'px';
       expandedContentElem.style.height = height + 'px';
       expandedContentElem.style.left = left + 'px';
       expandedContentElem.style.top = top + 'px';
-      expandedContentElem.style.transform = 'translateX(0)';
+      // expandedContentElem.style.transform = 'translateX(0)';
   
 
   
       expandedContentElem.innerHTML = `
-  <button class="close-expanded-btn" aria-label="סגור">&times;</button>
-  <iframe src="${body.customInfo.url}" 
+  <button class="close-expanded-btn" aria-label="סגור"></button>
+  <iframe id="popupFrame" 
+          src="${body.customInfo.url}" 
           frameborder="0" 
           style="width: 100%; height: 100%; border: none;"></iframe>
 `;
@@ -624,8 +654,8 @@ if (body.customInfo.url === 'pages/portfolio') {
 
       requestAnimationFrame(() => {
         expandedContentElem.style.transition = 'all 0.5s ease';
-        expandedContentElem.style.width = '97.5vw';
-        expandedContentElem.style.height = '85vh';
+        expandedContentElem.style.width = '100%';
+        expandedContentElem.style.height = '100vh';
         expandedContentElem.style.left = '0';
         expandedContentElem.style.top = '0';
         // expandedContentElem.style.transform = 'translateX(-2.5%)';
@@ -756,6 +786,13 @@ canvas.addEventListener('mousemove', (e) => {
   logoSpan.style.fontVariationSettings = `"wght" ${wght.toFixed(1)}, "wdth" ${wdth.toFixed(1)}`;
 });
 
+
+window.addEventListener('message', (event) => {
+  if (event.data.action === 'closeIframe') {
+    const iframe = document.getElementById('myIframe');
+    if (iframe) iframe.remove();
+  }
+});
 
   </script>
   
