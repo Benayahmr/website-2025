@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>בניה המר</title>
+  <title>Benaya Hammer</title>
   <!-- Favicon רגיל לדפדפנים -->
 <link rel="icon" href="icon/favicon.ico" type="image/x-icon">
 <link rel="icon" href="icon/favicon.svg" type="image/svg+xml">
@@ -325,21 +325,18 @@ strong {
   <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
   <script>
 
+function collectAllImages(data) {
+  const images = new Set();
+  data.forEach(item => {
+    if (item.image) images.add(item.image);
+    if (item.hoverImage) images.add(item.hoverImage);
+  });
+  return Array.from(images);
+}
 
 
        
-                        const imagesToLoad = [
-                          'images/lettering_pic.png',
-                          'images/armon_pic.png',
-                          'images/asufa_pic.png',
-                          'images/algo_pic.png',
-                          'images/doula_pic.png',
-                          'images/lettering_pic_sat.png',
-                          'images/armon_pic_sat.png',
-                          'images/asufa_pic_sat.png',
-                          'images/algo_pic_sat.png',
-                          'images/doula_pic_sat.png'
-                        ];
+                        const imagesToLoad = collectAllImages(squareData);
 
                         
                   let loadedImages = 0;
