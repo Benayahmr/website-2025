@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>כפולה להגדת אסופה</title>
+  <title>דולה והכנה ללידה</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
    @font-face {
@@ -48,7 +48,7 @@
       margin-bottom: -10px;
       margin-top: -10px;
 
-      color:#000000;
+      color:#fffbe2;
     }
 
     h2 {
@@ -59,7 +59,7 @@
       margin-bottom: -10px;
       margin-top: -10px;
 
-      color:#c54343;
+      color:#f30073;
     }
 
 
@@ -68,7 +68,7 @@
       top:0;
       right: 0;
 
-      background-color: #E4E2D9;
+      background-color: #000035;
       padding-top: 0px;
 
       padding-bottom: 60px;
@@ -102,16 +102,16 @@
     }
 
   .close-btn:hover {
-  color: #c54343;
+  color: #f30073;
 }
 
  .header-flex-container {
-  width: 98vw;
+  width: 110vw;
   position: sticky;
   top: 0;
   transform: translateX(36px);
   backdrop-filter: blur(5px);
-  background-color: #e4e2d9ca;
+  background-color: #000035e0;
   display: flex;
   align-items: center;
   gap: 17px;
@@ -119,7 +119,6 @@
   will-change: transform, padding, font-size;
   padding-top: 13px;
    z-index: 2000000;
-   border-radius: 10px;
 }
 
 .header-flex-container h1,
@@ -138,6 +137,7 @@
       font-size: 20px;
       line-height: 23px;
       text-align: right;
+      color:#fffbe2;
 
       /* margin-bottom: 10px; */
     }
@@ -154,6 +154,15 @@
   height: auto;       /* שומר על פרופורציות מקוריות */
 
   display: block;     /* מסיר רווחים מתחת לתמונה */
+}
+
+.screen img {
+ width:20vw; margin-right: 30px ;
+ border: 1px solid #060671;
+ border-radius: 16px;
+  margin: 30px 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+  object-fit:fill;
 }
 
 strong {
@@ -223,6 +232,20 @@ strong {
       opacity: 1;
       transform: scale(1);
     }
+
+
+    .video1 {
+  width: 20vw;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+
+  border: 1px solid #060671;
+  margin: 30px 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+
+} 
+
   </style>
 </head>
 <body>
@@ -233,34 +256,42 @@ strong {
   <div class="header-flex-container" onclick='window.scrollTo({top: 0, behavior: "smooth"});'>
     <div class="close-btn">❮</div>
 
-  <h1>הגדת אסופה</h1>
-  <h2> כפולה מאויירת </h2>
+  <h1>דלפִי</h1>
+  <h2> שפה גרפית וחוויית משתמש</h2>
 </div>
 
 
-<div class="text-container">
-  <div class="image"  style="transform:scale(1); transform-origin: center right; width: 400px;">
-    <img src="images/asufa1.png" alt="אסופה 1" >
-    </div>
 
-  <p>השתתפתי בהגדה המסורתית של <strong>אסופה 2025</strong>!
-  <br><br>
-העיצוב, הלייאאוט והטיפוגרפיה הן בהשראת הגדות ישנות מראשית הציונות בסגנונות האר־נובו,
+<div class="image">
+  <img src="images/delfie1.jpg" alt="דלפי 1">
+</div>
+
+<div style="display: flex; flex-direction: row; gap: 30px;">
+
+
+
+<video autoplay muted loop class="video1" style=" display: block;">
+  <source src="images/delfie_vid.mp4">
+</video>
+
+<div class="screen">
+  <img src="images/delfie2.jpg" alt="דלפי 1">
+</div>
+
+
+<p style="margin:40px;
+ align-content: center;
+ ">
+אבטיפוס לאפליקציה <strong>דלפי </strong>לתיעוד וניהול יומן חלומות,  
 <br>
-וכמו כן שאבתי מן האסתטיקה פגאנית, בהתאם לתוכן הטקסט.
+מתוך מבט אל עולם החלומות כראי הנפש.
 </p>
 
+
+
 </div>
 
 
-
-<div class="image">
-  <img src="images/asufa4.jpg" alt="ארמון 1">
-</div>
-
-<div class="image">
-  <img src="images/asufa2.jpg" alt="ארמון 1">
-</div>
 
 
   <!-- פופאפ -->
