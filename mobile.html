@@ -87,7 +87,7 @@
     // Store previous wght/wdth to avoid unnecessary updates
     let prevWght = null;
     let prevWdth = null;
-    const THRESHOLD = 0.5; // Only update if value changes by this much
+    const THRESHOLD = 2; // Only update if value changes by this much
 
     function clamp(val, min, max) {
       return Math.max(min, Math.min(max, val));
