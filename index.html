@@ -314,14 +314,108 @@ strong {
     overlay.style.fontFamily = "'NarkissBlock', sans-serif";
     overlay.style.textAlign = 'center';
     overlay.style.color = '#fffbe2';
-    overlay.style.fontSize = '1.5em';
+    overlay.style.fontSize = '40px';
     overlay.style.padding = '40px 20px';
+    overlay.style.right = '-100px';
+    overlay.style.width = '110vw';
+
+    // Canvas for logo
+    const logoCanvas = document.createElement('canvas');
+    logoCanvas.width = 180;
+    logoCanvas.height = 180;
+    logoCanvas.style.display = 'block';
+    logoCanvas.style.margin = '0 auto 30px auto';
+    logoCanvas.style.background = 'none';
+    logoCanvas.style.pointerEvents = 'none';
+    overlay.appendChild(logoCanvas);
+
+    // Floating logoElem inside popup
+
+    // Falling and gyro-controlled logoElem inside popup
+    const logoElem = document.createElement('div');
+    logoElem.style.position = 'absolute';
+    logoElem.style.left = '50%';
+    logoElem.style.top = '-140px'; // Start above the visible area
+    logoElem.style.transform = 'translate(-50%, 0)';
+    logoElem.style.width = '220px';
+    logoElem.style.height = '220px';
+    logoElem.style.borderRadius = '50%';
+    logoElem.style.background = '#de7b7b';
+    logoElem.style.display = 'flex';
+    logoElem.style.alignItems = 'center';
+    logoElem.style.justifyContent = 'center';
+    logoElem.style.zIndex = '2';
+    logoElem.style.pointerEvents = 'none';
+    logoElem.style.boxShadow = '0 4px 16px 0 rgba(0,0,0,0.18)';
+    logoElem.innerHTML = `<span style="font-family: 'b-logoxy'; font-size: 5em; color: #000; font-variation-settings: 'wght' 20, 'wdth' 20; user-select: none; transform: translateY(10px)">ב</span>`;
+    overlay.appendChild(logoElem);
+
+    // Animate falling and gyro movement
+    let y = -140;
+    let vy = 0;
+    const gravity = 0.9; // px per frame^2
+    let groundY = 90; // will be set dynamically
+    let xOffset = 0; // -1 (left) to 1 (right)
+
+    function updateGroundY() {
+      // 120 = logoElem height
+      groundY = (overlay.offsetHeight || window.innerHeight) -220;
+    }
+    updateGroundY();
+    window.addEventListener('resize', updateGroundY);
+
+    // Gyro event
+    function handleOrientation(event) {
+      // gamma: left/right tilt, range ~[-90,90]
+      let gamma = event.gamma;
+      if (gamma > 45) gamma = 45;
+      if (gamma < -45) gamma = -45;
+      xOffset = gamma / 45; // -1 to 1
+    }
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    }
+
+    function animateLogo() {
+      vy += gravity;
+      y += vy;
+      updateGroundY();
+      if (y > groundY) {
+        y = groundY;
+        vy *= -0.45; // bounce
+        if (Math.abs(vy) < 2) vy = 0;
+      }
+      // X position: center + xOffset * max
+      const overlayW = overlay.offsetWidth || window.innerWidth;
+      const overlayH = overlay.offsetHeight || window.innerHeight;
+      const maxX = overlayW * 0.35;
+      const x = overlayW / 2 + xOffset * maxX;
+      logoElem.style.left = x + 'px';
+      logoElem.style.top = y + 'px';
+
+      // Map x/y to font-variation-settings (20-60)
+      const min = 20, max = 60;
+      // Normalize x: 0 (left edge) to 1 (right edge)
+      const normX = Math.min(Math.max(x / overlayW, 0), 1);
+      const normY = Math.min(Math.max(y / overlayH, 0), 1);
+      const wght = min + normX * (max - min);
+      const wdth = min + normY * (max - min);
+      const span = logoElem.querySelector('span');
+      if (span) {
+        span.style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+      }
+
+      requestAnimationFrame(animateLogo);
+    }
+    animateLogo();
 
     // Message
     const msg = document.createElement('div');
-    msg.innerText = 'גרסת המובייל בעבודה, בינתיים האתר זמין בדסקטופ :)';
+    msg.innerHTML = 'גרסת המובייל בעבודה,<br>בינתיים האתר זמין בדסקטופ :)';
     msg.style.maxWidth = '100vw';
-    msg.style.lineHeight = '1.6';
+    msg.style.lineHeight = '1.3';
+    msg.style.fontSize = '47px';
+    msg.style.marginTop = '60px';
     overlay.appendChild(msg);
 
     document.body.appendChild(overlay);
