@@ -162,19 +162,12 @@
       } else {
         needNextFrame = true;
       }
-      // Update font-variation-settings always
-      const normX = Math.min(Math.max(posX / (window.innerWidth - logo.offsetWidth), 0), 1);
-      const normY = Math.min(Math.max(posY / (window.innerHeight - logo.offsetHeight), 0), 1);
-      const min = 20, max = 60;
-      const wght = min + normX * (max - min);
-      const wdth = min + normY * (max - min);
-      logo.querySelector('span').style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+      // ביטול שינוי font-variation-settings — הפונט נשאר קבוע
       if (needNextFrame) {
         requestAnimationFrame(animateLogo);
       } else {
         animationRunning = false;
       }
-       
       
     }
     // הפעלת האנימציה מחדש כשיש גרירה או זריקה
