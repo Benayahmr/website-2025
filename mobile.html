@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
   <meta name="theme-color" content="#000000">
   <style>
-    
+
     @font-face {
       font-family: 'NarkissBlock';
       src: url('fonts/NarkissBlock-Regular.otf') format('opentype');
@@ -82,8 +82,8 @@
     const ballSize = 70; // px, matches .logo-circle
     let x = Math.random() * (window.innerWidth - ballSize);
     let y = Math.random() * (window.innerHeight - ballSize);
-    let dx = (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
-    let dy = (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
+    let dx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+    let dy = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
 
     // Store previous wght/wdth to avoid unnecessary updates
     let prevWght = null;
