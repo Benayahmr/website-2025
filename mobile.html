@@ -100,34 +100,38 @@
       return 20 + ((y / (window.innerHeight - ballSize)) * 40);
     }
 
+
+    let frameCount = 0;
     function animate() {
-      x += dx;
-      y += dy;
-      // Bounce off walls
-      if (x <= 0) { x = 0; dx *= -1; }
-      if (x >= window.innerWidth - ballSize) { x = window.innerWidth - ballSize; dx *= -1; }
-      if (y <= 0) { y = 0; dy *= -1; }
-      if (y >= window.innerHeight - ballSize) { y = window.innerHeight - ballSize; dy *= -1; }
+      frameCount++;
+      if (frameCount % 2 === 0) {
+        x += dx;
+        y += dy;
+        // Bounce off walls
+        if (x <= 0) { x = 0; dx *= -1; }
+        if (x >= window.innerWidth - ballSize) { x = window.innerWidth - ballSize; dx *= -1; }
+        if (y <= 0) { y = 0; dy *= -1; }
+        if (y >= window.innerHeight - ballSize) { y = window.innerHeight - ballSize; dy *= -1; }
 
-      logo.style.position = 'fixed';
-      logo.style.left = x + 'px';
-      logo.style.top = y + 'px';
+        logo.style.position = 'fixed';
+        logo.style.left = x + 'px';
+        logo.style.top = y + 'px';
 
-      // Map x/y to 20-60 for font-variation-settings
-      const wght = getWght(x);
-      const wdth = getWdth(y);
+        // Map x/y to 20-60 for font-variation-settings
+        const wght = getWght(x);
+        const wdth = getWdth(y);
 
-      // Only update fontVariationSettings if values change significantly
-      if (
-        prevWght === null || prevWdth === null ||
-        Math.abs(wght - prevWght) > THRESHOLD ||
-        Math.abs(wdth - prevWdth) > THRESHOLD
-      ) {
-        logoSpan.style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
-        prevWght = wght;
-        prevWdth = wdth;
+        // Only update fontVariationSettings if values change significantly
+        if (
+          prevWght === null || prevWdth === null ||
+          Math.abs(wght - prevWght) > THRESHOLD ||
+          Math.abs(wdth - prevWdth) > THRESHOLD
+        ) {
+          logoSpan.style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+          prevWght = wght;
+          prevWdth = wdth;
+        }
       }
-
       requestAnimationFrame(animate);
     }
 
