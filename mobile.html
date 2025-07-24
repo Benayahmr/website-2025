@@ -142,7 +142,10 @@
       isDragging = false;
     });
 
+    let animationRunning = false;
     function animateLogo() {
+      animationRunning = true;
+      let needNextFrame = false;
       if (!isDragging) {
         vy += gravity;
         posY += vy;
@@ -154,6 +157,10 @@
         }
         logo.style.top = posY + 'px';
         logo.style.left = posX + 'px';
+        // נמשיך רק אם יש תנועה
+        if (Math.abs(vy) >= 0.1 || posY < groundY) needNextFrame = true;
+      } else {
+        needNextFrame = true;
       }
       // Update font-variation-settings always
       const normX = Math.min(Math.max(posX / (window.innerWidth - logo.offsetWidth), 0), 1);
@@ -162,9 +169,23 @@
       const wght = min + normX * (max - min);
       const wdth = min + normY * (max - min);
       logo.querySelector('span').style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
-      requestAnimationFrame(animateLogo);
+      if (needNextFrame) {
+        requestAnimationFrame(animateLogo);
+      } else {
+        animationRunning = false;
+      }
     }
-    animateLogo();
+    // הפעלת האנימציה מחדש כשיש גרירה או זריקה
+    function ensureAnimation() {
+      if (!animationRunning) requestAnimationFrame(animateLogo);
+    }
+    // הפעלת האנימציה בהתחלה
+    ensureAnimation();
+    // הפעלת האנימציה בכל שחרור גרירה
+    window.addEventListener('touchend', function() {
+      isDragging = false;
+      ensureAnimation();
+    });
   </script>
 </body>
 </html>
