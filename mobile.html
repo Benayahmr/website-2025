@@ -82,7 +82,9 @@
     let posX = window.innerWidth/2 - logo.offsetWidth/2;
     let posY = 60;
     let vy = 0;
-    const gravity = 0.05; // px per frame^2
+    let lastTouchY = posY;
+    let lastTouchTime = Date.now();
+    const gravity = 0.7; // px per frame^2
     let groundY = window.innerHeight - logo.offsetHeight;
     logo.style.left = posX + 'px';
     logo.style.top = posY + 'px';
@@ -101,6 +103,8 @@
       dragOffsetX = touch.clientX - rect.left;
       dragOffsetY = touch.clientY - rect.top;
       vy = 0;
+      lastTouchY = touch.clientY;
+      lastTouchTime = Date.now();
       e.preventDefault();
     }, { passive: false });
 
@@ -112,6 +116,14 @@
       // Clamp inside viewport
       newX = clamp(newX, 0, window.innerWidth - logo.offsetWidth);
       newY = clamp(newY, 0, groundY);
+      // Calculate vy for throw effect
+      const now = Date.now();
+      const dt = now - lastTouchTime;
+      if (dt > 0) {
+        vy = (newY - lastTouchY) / dt * 16 * 2.5; // הגברת התנופה פי 2.5
+      }
+      lastTouchY = newY;
+      lastTouchTime = now;
       posX = newX;
       posY = newY;
       logo.style.left = posX + 'px';
@@ -137,7 +149,7 @@
         updateGroundY();
         if (posY > groundY) {
           posY = groundY;
-          vy *= -0.75; // bounce - יותר קופצני
+          vy *= -0.85; // bounce - יותר קופצני וגם שומר יותר מהירות
           if (Math.abs(vy) < 1) vy = 0;
         }
         logo.style.top = posY + 'px';
