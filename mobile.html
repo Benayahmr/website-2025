@@ -84,7 +84,7 @@
     let vy = 0;
     let lastTouchY = posY;
     let lastTouchTime = Date.now();
-    const gravity = 0.7; // px per frame^2
+    const gravity = 0.05; // px per frame^2
     let groundY = window.innerHeight - logo.offsetHeight;
     logo.style.left = posX + 'px';
     logo.style.top = posY + 'px';
@@ -120,7 +120,7 @@
       const now = Date.now();
       const dt = now - lastTouchTime;
       if (dt > 0) {
-        vy = (newY - lastTouchY) / dt * 16 * 2.5; // הגברת התנופה פי 2.5
+        vy = (newY - lastTouchY) / dt * 2; // 16ms ~ 60fps
       }
       lastTouchY = newY;
       lastTouchTime = now;
@@ -149,7 +149,7 @@
         updateGroundY();
         if (posY > groundY) {
           posY = groundY;
-          vy *= -0.85; // bounce - יותר קופצני וגם שומר יותר מהירות
+          vy *= -0.65; // bounce - יותר קופצני
           if (Math.abs(vy) < 1) vy = 0;
         }
         logo.style.top = posY + 'px';
