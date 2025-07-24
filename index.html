@@ -2,6 +2,15 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    // Redirect to mobile.html if on mobile device
+    (function() {
+      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 900 && window.innerHeight <= 900);
+      if (isMobile && !location.pathname.endsWith('mobile.html')) {
+        location.replace('mobile.html');
+      }
+    })();
+  </script>
   <title>Benaya Hammer</title>
   <!-- Favicon רגיל לדפדפנים -->
 <link rel="icon" href="icon/favicon.ico" type="image/x-icon">

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Benaya Hammer - Mobile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="icon/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="icon/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+  <style>
+    @font-face {
+      font-family: 'NarkissBlock';
+      src: url('fonts/NarkissBlock-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'b-logoxy';
+      src: url('fonts/b-logoxyVF.ttf') format('truetype-variations');
+      font-weight: 20 60;
+      font-stretch: 20% 60%;
+      font-style: normal;
+    }
+    body {
+      margin: 0;
+      background: #000;
+      color: #fffbe2;
+      font-family: 'NarkissBlock', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .logo-circle {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #e8d0d034;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px auto;
+      box-shadow: 0 4px 16px 0 rgba(0,0,0,0.18);
+      touch-action: none;
+      user-select: none;
+
+      backdrop-filter: blur(2px);
+-webkit-backdrop-filter: blur(2px);
+      
+    }
+    .logo-circle span {
+      font-family: 'b-logoxy';
+      font-size: 80px;
+      color: #000;
+      font-variation-settings: 'wght' 40, 'wdth' 40;
+      user-select: none;
+      pointer-events: none;
+      transform: translateY(5px);
+    }
+    .msg {
+      max-width: 90vw;
+      line-height: 1.3;
+      font-size: 20px;
+      /* margin-top: 30px; */
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="logo" class="logo-circle"><span>ב</span></div>
+  <div class="msg">גרסת המובייל בעבודה,<br>בינתיים האתר זמין בדסקטופ :)</div>
+  <script>
+    // Gravity + drag logic for mobile
+    const logo = document.getElementById('logo');
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    let posX = window.innerWidth/2 - logo.offsetWidth/2;
+    let posY = 60;
+    let vy = 0;
+    const gravity = 0.05; // px per frame^2
+    let groundY = window.innerHeight - logo.offsetHeight;
+    logo.style.left = posX + 'px';
+    logo.style.top = posY + 'px';
+    logo.style.position = 'absolute';
+    function clamp(val, min, max) { return Math.max(min, Math.min(val, max)); }
+
+    function updateGroundY() {
+      groundY = window.innerHeight - logo.offsetHeight;
+    }
+    window.addEventListener('resize', updateGroundY);
+
+    logo.addEventListener('touchstart', function(e) {
+      const touch = e.touches[0];
+      const rect = logo.getBoundingClientRect();
+      isDragging = true;
+      dragOffsetX = touch.clientX - rect.left;
+      dragOffsetY = touch.clientY - rect.top;
+      vy = 0;
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      let newX = touch.clientX - dragOffsetX;
+      let newY = touch.clientY - dragOffsetY;
+      // Clamp inside viewport
+      newX = clamp(newX, 0, window.innerWidth - logo.offsetWidth);
+      newY = clamp(newY, 0, groundY);
+      posX = newX;
+      posY = newY;
+      logo.style.left = posX + 'px';
+      logo.style.top = posY + 'px';
+      // Update font-variation-settings
+      const normX = Math.min(Math.max(posX / (window.innerWidth - logo.offsetWidth), 0), 1);
+      const normY = Math.min(Math.max(posY / (window.innerHeight - logo.offsetHeight), 0), 1);
+      const min = 20, max = 60;
+      const wght = min + normX * (max - min);
+      const wdth = min + normY * (max - min);
+      logo.querySelector('span').style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchend', function() {
+      isDragging = false;
+    });
+
+    function animateLogo() {
+      if (!isDragging) {
+        vy += gravity;
+        posY += vy;
+        updateGroundY();
+        if (posY > groundY) {
+          posY = groundY;
+          vy *= -0.75; // bounce - יותר קופצני
+          if (Math.abs(vy) < 1) vy = 0;
+        }
+        logo.style.top = posY + 'px';
+        logo.style.left = posX + 'px';
+      }
+      // Update font-variation-settings always
+      const normX = Math.min(Math.max(posX / (window.innerWidth - logo.offsetWidth), 0), 1);
+      const normY = Math.min(Math.max(posY / (window.innerHeight - logo.offsetHeight), 0), 1);
+      const min = 20, max = 60;
+      const wght = min + normX * (max - min);
+      const wdth = min + normY * (max - min);
+      logo.querySelector('span').style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+      requestAnimationFrame(animateLogo);
+    }
+    animateLogo();
+  </script>
+</body>
+</html>
