@@ -73,8 +73,50 @@
   </style>
 </head>
 <body>
-  <!-- <div id="logo" class="logo-circle"><span>ב</span></div> -->
+  <div id="logo" class="logo-circle"><span>ב</span></div>
   <div class="msg">גרסת המובייל בעבודה,<br>בינתיים האתר זמין בדסקטופ :)</div>
-  <!-- כל הפיצ'רים הדינמיים הוסרו. -->
+  <script>
+    // Ball screensaver movement and variable font mapping
+    const logo = document.getElementById('logo');
+    const logoSpan = logo.querySelector('span');
+    const ballSize = 100; // px, matches .logo-circle
+    let x = Math.random() * (window.innerWidth - ballSize);
+    let y = Math.random() * (window.innerHeight - ballSize);
+    let dx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+    let dy = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    function animate() {
+      x += dx;
+      y += dy;
+      // Bounce off walls
+      if (x <= 0) { x = 0; dx *= -1; }
+      if (x >= window.innerWidth - ballSize) { x = window.innerWidth - ballSize; dx *= -1; }
+      if (y <= 0) { y = 0; dy *= -1; }
+      if (y >= window.innerHeight - ballSize) { y = window.innerHeight - ballSize; dy *= -1; }
+
+      logo.style.position = 'fixed';
+      logo.style.left = x + 'px';
+      logo.style.top = y + 'px';
+
+      // Map x/y to 20-60 for font-variation-settings
+      const wght = 20 + ((x / (window.innerWidth - ballSize)) * 40);
+      const wdth = 20 + ((y / (window.innerHeight - ballSize)) * 40);
+      logoSpan.style.fontVariationSettings = `'wght' ${wght.toFixed(1)}, 'wdth' ${wdth.toFixed(1)}`;
+
+      requestAnimationFrame(animate);
+    }
+
+    // Responsive: reset bounds on resize
+    window.addEventListener('resize', () => {
+      x = clamp(x, 0, window.innerWidth - ballSize);
+      y = clamp(y, 0, window.innerHeight - ballSize);
+    });
+
+    animate();
+  </script>
 </body>
 </html>
