@@ -364,17 +364,51 @@ strong {
     updateGroundY();
     window.addEventListener('resize', updateGroundY);
 
-    // Gyro event
-    function handleOrientation(event) {
-      // gamma: left/right tilt, range ~[-90,90]
-      let gamma = event.gamma;
-      if (gamma > 45) gamma = 45;
-      if (gamma < -45) gamma = -45;
-      xOffset = gamma / 45; // -1 to 1
-    }
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleOrientation, true);
-    }
+    // Touch drag support for logoElem
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    logoElem.addEventListener('touchstart', function(e) {
+      const touch = e.touches[0];
+      const rect = logoElem.getBoundingClientRect();
+      isDragging = true;
+      dragOffsetX = touch.clientX - rect.left;
+      dragOffsetY = touch.clientY - rect.top;
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      const overlayRect = overlay.getBoundingClientRect();
+      let newX = touch.clientX - overlayRect.left - dragOffsetX + logoElem.offsetWidth/2;
+      let newY = touch.clientY - overlayRect.top - dragOffsetY + logoElem.offsetHeight/2;
+      // Clamp X and Y inside overlay
+      const minX = logoElem.offsetWidth/2;
+      const maxX = overlay.offsetWidth - logoElem.offsetWidth/2;
+      const minY = 0;
+      const maxY = groundY;
+      newX = Math.max(minX, Math.min(newX, maxX));
+      newY = Math.max(minY, Math.min(newY, maxY));
+      logoElem.style.left = newX + 'px';
+      logoElem.style.top = newY + 'px';
+      // Update y for bounce logic
+      y = newY;
+      vy = 0;
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchend', function() {
+      isDragging = false;
+      // Update xOffset so the ball stays where released
+      const overlayW = overlay.offsetWidth || window.innerWidth;
+      const x = parseFloat(logoElem.style.left) || overlayW/2;
+      const maxX = overlayW * 0.35;
+      xOffset = ((x - overlayW/2) / maxX);
+      // Clamp xOffset to [-1,1]
+      xOffset = Math.max(-1, Math.min(xOffset, 1));
+    });
 
     function animateLogo() {
       vy += gravity;
@@ -385,13 +419,20 @@ strong {
         vy *= -0.45; // bounce
         if (Math.abs(vy) < 2) vy = 0;
       }
-      // X position: center + xOffset * max
+
+      // X position: if dragging, use logoElem position; else, animate as before
       const overlayW = overlay.offsetWidth || window.innerWidth;
       const overlayH = overlay.offsetHeight || window.innerHeight;
-      const maxX = overlayW * 0.35;
-      const x = overlayW / 2 + xOffset * maxX;
-      logoElem.style.left = x + 'px';
-      logoElem.style.top = y + 'px';
+      let x;
+      if (!isDragging) {
+        const maxX = overlayW * 0.35;
+        x = overlayW / 2 + xOffset * maxX;
+        logoElem.style.left = x + 'px';
+        logoElem.style.top = y + 'px';
+      } else {
+        // When dragging, get x from logoElem
+        x = parseFloat(logoElem.style.left) || overlayW/2;
+      }
 
       // Map x/y to font-variation-settings (20-60)
       const min = 20, max = 60;
