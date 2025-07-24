@@ -17,7 +17,7 @@
     }
     @font-face {
       font-family: 'b-logoxy';
-      src: url('fonts/b-logoxyVF.ttf') format('truetype-variations');
+      src: url('fonts/b-logoxyVF.woff2') format('woff2-variations');
       font-weight: 20 60;
       font-stretch: 20% 60%;
       font-style: normal;
@@ -36,8 +36,8 @@
     }
     .logo-circle {
       position: relative;
-      width: 100px;
-      height: 100px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       background: #e8d0d034;
       display: flex;
@@ -54,10 +54,9 @@
     }
     .logo-circle span {
       font-family: 'b-logoxy';
-      font-size: 80px;
+      font-size: 60px;
       color: #000;
 
-      /* font-variation-settings: 'wght' 40, 'wdth' 40; */
       user-select: none;
       pointer-events: none;
       transform: translateY(5px);
@@ -82,8 +81,8 @@
     const ballSize = 100; // px, matches .logo-circle
     let x = Math.random() * (window.innerWidth - ballSize);
     let y = Math.random() * (window.innerHeight - ballSize);
-    let dx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
-    let dy = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+    let dx = (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
+    let dy = (Math.random() > 0.5 ? 1 : -1) * (1 + Math.random());
 
     function clamp(val, min, max) {
       return Math.max(min, Math.min(max, val));
