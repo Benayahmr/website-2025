@@ -102,8 +102,23 @@
     }
 
 
+
     let frameCount = 0;
-    function animate() {
+    let lastFrameTime = null;
+    function resetLogo() {
+      x = Math.random() * (window.innerWidth - ballSize);
+      y = Math.random() * (window.innerHeight - ballSize);
+      dx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+      dy = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2);
+      prevWght = null;
+      prevWdth = null;
+    }
+
+    function animate(timestamp) {
+      if (lastFrameTime !== null && (timestamp - lastFrameTime > 1000)) {
+        resetLogo();
+      }
+      lastFrameTime = timestamp;
       frameCount++;
       if (frameCount % 3 === 0) {
         x += dx;
@@ -146,7 +161,7 @@
     }
     window.addEventListener('resize', handleResize);
 
-    animate();
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>
