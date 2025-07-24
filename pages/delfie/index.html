@@ -247,40 +247,8 @@ strong {
 } 
 
   </style>
-</style>
-<style>
-  /* Mobile popup overlay */
-  #mobile-popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000035ee;
-    z-index: 9999999;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    color: #fffbe2;
-    font-family: 'NarkissBlock', sans-serif;
-    font-size: 6vw;
-    padding: 0 10vw;
-  }
-  @media (max-width: 800px) {
-    #mobile-popup { display: flex; }
-    body > *:not(#mobile-popup) { filter: blur(2px) grayscale(0.2); pointer-events: none; user-select: none; }
-  }
-</style>
 </head>
 <body>
-
-  <div id="mobile-popup">
-    <div>
-      גרסת המובייל בעבודה<br>
-      בינתיים האתר זמין בדסקטופ :)
-    </div>
-  </div>
 
   <div class="close-btn" style="width: 100%; height: 110px;"> </div>
   <div class="popup-body">
@@ -315,7 +283,7 @@ strong {
 <p style="margin:40px;
  align-content: center;
  ">
- <img src="images/delfie-logo.png" style="height:70px; margin-bottom: 20px;" alt="דלפי לוגו">
+ <img src="images/delfie-logo.png" style="height:70px; margin-bottom: 20px; " alt="דלפי לוגו">
   <br>
 אבטיפוס לאפליקציה <strong>דלפי </strong>לתיעוד וניהול יומן חלומות,  
 <br>
@@ -325,7 +293,7 @@ strong {
 
 </div>
 
- <img src="images/footer-delfie-img.png" style="width:120%; position:absolute; transform: translate(60px,-180px); z-index: 0;" alt="דלפי פוטר">
+ <img src="images/footer-delfie-img.png" style="width:120%; position:absolute; transform: translate(60px,-180px); z-index: 0; background-color: #000035;;" alt="דלפי פוטר">
 
 
 
@@ -337,20 +305,6 @@ strong {
   </div>
 </div>
   <script>
-  // Mobile popup logic
-  function checkMobilePopup() {
-    const popup = document.getElementById('mobile-popup');
-    if (window.innerWidth <= 800) {
-      popup.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    } else {
-      popup.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  }
-  checkMobilePopup();
-  window.addEventListener('resize', checkMobilePopup);
-
   const popup = document.getElementById('popup');
 const popupOverlay = popup.querySelector('.popup-overlay');
 const popupImg = document.getElementById('popup-img');
@@ -438,6 +392,43 @@ window.addEventListener('scroll', () => {
 
 
   </script>
+  // Mobile popup overlay
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 900 && window.innerHeight <= 900);
+  }
+
+  function showMobilePopup() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'mobile-block-popup';
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.background = 'rgba(0,0,35,0.98)';
+    overlay.style.zIndex = '9999999';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.flexDirection = 'column';
+    overlay.style.fontFamily = "'NarkissBlock', sans-serif";
+    overlay.style.textAlign = 'center';
+    overlay.style.color = '#fffbe2';
+    overlay.style.fontSize = '1.5em';
+    overlay.style.padding = '40px 20px';
+
+    // Message
+    const msg = document.createElement('div');
+    msg.innerText = 'גרסת המובייל בעבודה, בינתיים האתר זמין בדסקטופ :)';
+    msg.style.maxWidth = '90vw';
+    msg.style.lineHeight = '1.6';
+    overlay.appendChild(msg);
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+  }
+
+  if (isMobileDevice()) {
+    window.addEventListener('DOMContentLoaded', showMobilePopup);
+  }
 
 </body>
 </html>
