@@ -602,6 +602,8 @@ closeSquareExpanded()
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   
+
+    
     const render = Render.create({
       canvas: canvas,
       engine: engine,
@@ -929,13 +931,18 @@ if (body.customInfo.url === 'pages/portfolio') {
     // --- הוספת טיפול ב-hover לשינוי התמונה לתמונה עם _sat ---
     let hoveredSquare = null;
   
+
 canvas.addEventListener('mousemove', (e) => {
   const mousePos = { x: e.clientX, y: e.clientY };
   const foundBodies = Query.point(world.bodies, mousePos);
   const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
 
   // שינוי הסמן
-  canvas.style.cursor = foundSquare ? 'pointer' : 'default';
+  if (mouseConstraint.body) {
+    canvas.style.cursor = 'grabbing';
+  } else {
+    canvas.style.cursor = foundSquare ? 'grab' : 'default';
+  }
 
   if (foundSquare !== hoveredSquare) {
     if (hoveredSquare) {
@@ -948,6 +955,14 @@ canvas.addEventListener('mousemove', (e) => {
       hoveredSquare.render.sprite.texture = hoveredSquare.customInfo.hoverImage;
     }
   }
+});
+
+canvas.addEventListener('mouseup', (e) => {
+  // אחרי עזיבת העכבר, אם מעל ריבוע – חזור ל-grab, אחרת ל-default
+  const mousePos = { x: e.clientX, y: e.clientY };
+  const foundBodies = Query.point(world.bodies, mousePos);
+  const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
+  canvas.style.cursor = foundSquare ? 'grab' : 'default';
 });
 
   
