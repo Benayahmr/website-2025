@@ -932,13 +932,14 @@ if (body.customInfo.url === 'pages/portfolio') {
     let hoveredSquare = null;
   
 
+let isGrabbing = false;
 canvas.addEventListener('mousemove', (e) => {
   const mousePos = { x: e.clientX, y: e.clientY };
   const foundBodies = Query.point(world.bodies, mousePos);
   const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
 
   // שינוי הסמן
-  if (mouseConstraint.body) {
+  if (isGrabbing) {
     canvas.style.cursor = 'grabbing';
   } else {
     canvas.style.cursor = foundSquare ? 'grab' : 'default';
@@ -957,8 +958,20 @@ canvas.addEventListener('mousemove', (e) => {
   }
 });
 
+canvas.addEventListener('mousedown', (e) => {
+  // במצב לחיצה, אם מעל ריבוע – הסמן grabbing
+  const mousePos = { x: e.clientX, y: e.clientY };
+  const foundBodies = Query.point(world.bodies, mousePos);
+  const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
+  if (foundSquare) {
+    isGrabbing = true;
+    canvas.style.cursor = 'grabbing';
+  }
+});
+
 canvas.addEventListener('mouseup', (e) => {
   // אחרי עזיבת העכבר, אם מעל ריבוע – חזור ל-grab, אחרת ל-default
+  isGrabbing = false;
   const mousePos = { x: e.clientX, y: e.clientY };
   const foundBodies = Query.point(world.bodies, mousePos);
   const foundSquare = foundBodies.find(b => b.label === 'clickable-square');
